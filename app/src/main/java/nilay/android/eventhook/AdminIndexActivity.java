@@ -1,11 +1,14 @@
 package nilay.android.eventhook;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +37,9 @@ public class AdminIndexActivity extends AppCompatActivity {
     private ArrayList<String> ClgName = new ArrayList<>();
     private ArrayList<String> ClgID = new ArrayList<>();
     String clgName="";
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference();
 
@@ -40,6 +47,14 @@ public class AdminIndexActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_index);
+
+        drawer = findViewById(R.id.drawerAdmin);
+        navigationView = findViewById(R.id.adminNavView);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.open, R.string.close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rlAddClg = (RelativeLayout) findViewById(R.id.rlAddClg);
         cardAddClg = (CardView) findViewById(R.id.cardAddClg);
@@ -70,6 +85,14 @@ public class AdminIndexActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addCollege() {

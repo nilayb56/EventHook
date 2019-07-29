@@ -89,7 +89,7 @@ public class HomeTwoActivity extends AppCompatActivity {
         imgLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeTwoActivity.this,AdminIndexActivity.class);
+                Intent i = new Intent(HomeTwoActivity.this,AdminActivity.class);
                 startActivity(i);
             }
         });
