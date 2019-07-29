@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgapps"
+    tools:context=".HomeTwoActivity">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/applogo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/merienda_regular"
+            android:text="Welcome!"
+            android:textColor="#03B08B"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+            android:id="@+id/imgReg"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/group"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:layout_below="@+id/imgReg"
+            android:layout_marginLeft="72dp"
+            android:textColor="@color/color4"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/imgLogin"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/group"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"/>
+
+        <TextView
+            android:id="@+id/txtLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_below="@id/imgLogin"
+            android:layout_marginLeft="262dp"
+            android:textColor="@color/color4"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spinnerHomeClg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+        </Spinner>
+
+    </RelativeLayout>
+
+    <GridLayout
+        android:id="@+id/gridCardView"
+        android:columnOrderPreserved="false"
+        android:alignmentMode="alignMargins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="5"
+        android:columnCount="2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp">
+
+    </GridLayout>
+
+</LinearLayout>
+
+</ScrollView>
