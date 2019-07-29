@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/adminAddClg"
+        android:icon="@drawable/ic_add"
+        android:title="Add College" />
+    <item
+        android:id="@+id/adminAddRole"
+        android:icon="@drawable/ic_add"
+        android:title="Add User Role" />
+    <item
+        android:id="@+id/adminUpdtRole"
+        android:icon="@drawable/ic_update"
+        android:title="Update User Role" />
+
+</menu>
