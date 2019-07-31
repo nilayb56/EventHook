@@ -83,14 +83,14 @@ public class HomeTwoActivity extends AppCompatActivity {
         imgReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeTwoActivity.this,CollegeAdminActivity.class);
+                Intent i = new Intent(HomeTwoActivity.this,RegistrationActivity.class);
                 startActivity(i);
             }
         });
         imgLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeTwoActivity.this, AdminActivity.class);
+                Intent i = new Intent(HomeTwoActivity.this, LoginActivity.class);
                 startActivity(i);
             }
         });
@@ -213,6 +213,7 @@ public class HomeTwoActivity extends AppCompatActivity {
                     i.putExtra("eventid",eid);
                     i.putExtra("eventname",event.getEvent_name());
                     i.putExtra("collegename",clgname);
+                    i.putExtra("grpmem",String.valueOf(event.getGroup_members()));
                     i.putExtra("param",eventdetails);
                     getApplicationContext().startActivity(i);
                 }

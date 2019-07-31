@@ -30,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
                 i.putExtra("eventid",getIntent().getStringExtra("eventid"));
                 i.putExtra("eventname",getIntent().getStringExtra("eventname"));
                 i.putExtra("collegename",getIntent().getStringExtra("collegename"));
+                i.putExtra("grpmem",getIntent().getStringExtra("grpmem"));
                 startActivity(i);
             }
         });

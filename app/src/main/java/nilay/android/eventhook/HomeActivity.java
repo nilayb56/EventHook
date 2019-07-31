@@ -1,9 +1,7 @@
 package nilay.android.eventhook;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.animation.ArgbEvaluator;
 
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;

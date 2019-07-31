@@ -5,16 +5,14 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 
-import nilay.android.eventhook.DetailActivity;
-import nilay.android.eventhook.Model;
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.model.Users;
 
@@ -43,29 +41,29 @@ public class RegistrationAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item, container, false);
+        View view = layoutInflater.inflate(R.layout.registration, container, false);
 
-        ImageView imageView;
-        TextView title, desc;
+        EditText txtUserName,txtEmailid,txtUserPwd;
+        Button btnUserReg;
 
-        imageView = view.findViewById(R.id.image);
-        title = view.findViewById(R.id.title);
-        desc = view.findViewById(R.id.desc);
+        txtUserName = view.findViewById(R.id.txtUserName);
+        txtEmailid = view.findViewById(R.id.txtEmailid);
+        txtUserPwd = view.findViewById(R.id.txtUserPwd);
+        btnUserReg = view.findViewById(R.id.btnUserReg);
 
-        /*imageView.setImageResource(models.get(position).getImage());
-        title.setText(models.get(position).getTitle());
-        desc.setText(models.get(position).getDesc());
+        /*txtUserName.setText(users.get(position).getUser_name());
+        txtEmailid.setText(users.get(position).getEmail_id());
+        txtUserPwd.setText(users.get(position).getPassword());*/
 
-        view.setOnClickListener(new View.OnClickListener() {
+        btnUserReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("param", models.get(position).getTitle());
-                context.startActivity(intent);
+                /*Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("param", users.get(position).getUser_name());
+                context.startActivity(intent);*/
                 // finish();
             }
         });
-*/
         container.addView(view, 0);
         return view;
     }
