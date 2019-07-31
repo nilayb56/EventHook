@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import nilay.android.eventhook.mainadmin.AdminActivity;
+
 public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private EditText txtUnm,txtPwd;
@@ -37,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     if(userName.equals("admin")&&password.equals("123")){
                         Toast.makeText(getApplicationContext(),"Login Successful!",Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(LoginActivity.this,AdminActivity.class);
+                        Intent i = new Intent(LoginActivity.this, AdminActivity.class);
                         startActivity(i);
                     }
                 }

@@ -28,4 +28,12 @@ public class UserRole {
     public void setRole_name(String role_name) {
         this.role_name = role_name;
     }
+
+    @Override
+    public String toString() {
+        return "UserRole{" +
+                "role_id='" + role_id + '\'' +
+                ", role_name='" + role_name + '\'' +
+                '}';
+    }
 }

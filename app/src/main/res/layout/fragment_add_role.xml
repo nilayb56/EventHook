@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgapps"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.admin.AddCollegeFragment">
+    tools:context=".fragment.admin.AddRoleFragment"
+    android:background="@drawable/bgapps">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,39 +35,39 @@
             android:alignmentMode="alignMargins"
             android:columnOrderPreserved="false">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardAddClg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="6dp">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardAddRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="6dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/imgAddClg"
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/college" />
+                    <ImageView
+                        android:id="@+id/imgAddRole"
+                        android:layout_width="100dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/userrole" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Add College"
-                    android:textColor="#6f6f6f"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Add New User Role"
+                        android:textColor="#6f6f6f"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </GridLayout>
 
@@ -76,27 +76,27 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/lblAddClg"
+                android:id="@+id/lblAddRole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter College Name"
+                android:text="Enter Name of New User Role"
                 android:textSize="22sp"
                 />
 
             <EditText
-                android:id="@+id/txtAdminAddClg"
+                android:id="@+id/txtAdminAddRole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lblAddClg"
-                android:hint="College Name"
+                android:layout_below="@+id/lblAddRole"
+                android:hint="Role Name"
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"/>
 
             <Button
-                android:id="@+id/btnAddClg"
+                android:id="@+id/btnAddRole"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtAdminAddClg"
+                android:layout_below="@id/txtAdminAddRole"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/round"
                 android:layout_marginTop="10dp"

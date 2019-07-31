@@ -1,4 +1,4 @@
-package nilay.android.eventhook;
+package nilay.android.eventhook.fragment.admin;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,18 +16,18 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import nilay.android.eventhook.model.College;
-
+import nilay.android.eventhook.R;
+import nilay.android.eventhook.model.UserRole;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddCollegeFragment.OnFragmentInteractionListener} interface
+ * {@link AddRoleFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AddCollegeFragment#newInstance} factory method to
+ * Use the {@link AddRoleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddCollegeFragment extends Fragment {
+public class AddRoleFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,14 +39,14 @@ public class AddCollegeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private String clgname="";
-    private TextView txtAdminAddClg;
-    private Button btnAddClg;
+    private String rolename="";
+    private TextView txtAdminAddRole;
+    private Button btnAddRole;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference();
 
-    public AddCollegeFragment() {
+    public AddRoleFragment() {
         // Required empty public constructor
     }
 
@@ -56,11 +56,11 @@ public class AddCollegeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AddCollegeFragment.
+     * @return A new instance of fragment AddRoleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddCollegeFragment newInstance(String param1, String param2) {
-        AddCollegeFragment fragment = new AddCollegeFragment();
+    public static AddRoleFragment newInstance(String param1, String param2) {
+        AddRoleFragment fragment = new AddRoleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -80,21 +80,21 @@ public class AddCollegeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_add_role, container, false);
 
-        final View view = inflater.inflate(R.layout.fragment_add_college, container, false);
-        txtAdminAddClg = (TextView) view.findViewById(R.id.txtAdminAddClg);
-        btnAddClg = (Button) view.findViewById(R.id.btnAddClg);
-        btnAddClg.setOnClickListener(new View.OnClickListener() {
+        txtAdminAddRole = (TextView) view.findViewById(R.id.txtAdminAddRole);
+        btnAddRole = (Button) view.findViewById(R.id.btnAddRole);
+        btnAddRole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clgname = txtAdminAddClg.getText().toString();
-                dbRef =database.getReference("College");
+                rolename = txtAdminAddRole.getText().toString();
+                dbRef =database.getReference("UserRole");
                 String id = dbRef.push().getKey();
-                College college = new College(id,clgname);
-                dbRef.child(id).setValue(college);
-                txtAdminAddClg.setText("");
-                clgname="";
-                Toast.makeText(view.getContext(), "College Added", Toast.LENGTH_SHORT).show();
+                UserRole userRole = new UserRole(id,rolename);
+                dbRef.child(id).setValue(userRole);
+                txtAdminAddRole.setText("");
+                rolename="";
+                Toast.makeText(view.getContext(), "New User Role Added", Toast.LENGTH_SHORT).show();
             }
         });
 

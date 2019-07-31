@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bgapps"
-    tools:context=".RegistrationActivity">
+    tools:context=".registration.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,36 +88,26 @@
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"></Spinner>
 
-            <EditText
-                android:id="@+id/txtSelectedEvent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Selected Event"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:layout_below="@+id/spinnerUserRole"
-                android:enabled="false"/>
-
             <TextView
                 android:id="@+id/lblEventData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtSelectedEvent"
-                android:layout_marginTop="15dp"/>
+                android:layout_below="@+id/spinnerUserRole"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/droidserif_regular"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/relRegForm"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp">
-
-
-
-        </RelativeLayout>
+            android:clipToPadding="false"
+            android:foregroundGravity="center"
+            android:overScrollMode="never"
+            android:layout_marginTop="30dp"></androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
 

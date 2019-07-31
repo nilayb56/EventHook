@@ -1,11 +1,6 @@
-package nilay.android.eventhook;
+package nilay.android.eventhook.mainadmin;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
 
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,6 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.view.Menu;
+
+import nilay.android.eventhook.R;
+import nilay.android.eventhook.fragment.admin.AddCollegeFragment;
+import nilay.android.eventhook.fragment.admin.AddRoleFragment;
 
 public class AdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,7 +52,7 @@ public class AdminActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.admin, menu);
+        getMenuInflater().inflate(R.menu.admin, menu);
         return true;
     }
 
@@ -61,7 +60,7 @@ public class AdminActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.admin_logout) {
             return true;
         }
 
@@ -78,7 +77,7 @@ public class AdminActivity extends AppCompatActivity
         if (id == R.id.nav_adminAddClg) {
             fragmentClass = AddCollegeFragment.class;
         } else if (id == R.id.nav_adminAddRole) {
-
+            fragmentClass = AddRoleFragment.class;
         } else if (id == R.id.nav_adminUpdtRole) {
 
         } else if (id == R.id.nav_adminReport) {

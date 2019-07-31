@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AdminActivity"
+            android:name=".mainadmin.AdminActivity"
             android:label="@string/title_activity_admin"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".CollegeAdminActivity" />
-        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".registration.RegistrationActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".HomeTwoActivity" />
         <activity android:name=".DetailActivity" />

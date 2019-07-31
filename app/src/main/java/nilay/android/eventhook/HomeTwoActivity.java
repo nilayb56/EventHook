@@ -2,26 +2,18 @@ package nilay.android.eventhook;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.Constraints;
-import androidx.core.view.ViewGroupCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -30,7 +22,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.common.util.Hex;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +31,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import nilay.android.eventhook.mainadmin.AdminActivity;
+import nilay.android.eventhook.model.College;
+import nilay.android.eventhook.model.Event;
+import nilay.android.eventhook.registration.RegistrationActivity;
 
 public class HomeTwoActivity extends AppCompatActivity {
 
@@ -58,6 +54,11 @@ public class HomeTwoActivity extends AppCompatActivity {
     private String clgname="";
     private String clgid="";
     private String eventname="";
+    private String eventid = "";
+    private String modeprivate,groupevent="";
+    private String eventdetails = "";
+
+    Event event = new Event();
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference();
@@ -89,7 +90,7 @@ public class HomeTwoActivity extends AppCompatActivity {
         imgLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeTwoActivity.this,AdminActivity.class);
+                Intent i = new Intent(HomeTwoActivity.this, AdminActivity.class);
                 startActivity(i);
             }
         });
@@ -113,6 +114,9 @@ public class HomeTwoActivity extends AppCompatActivity {
     }
 
     private void fillEvent() {
+        eventid = "";
+        eventname = "";
+        gridCardView.removeAllViews();
         dbRef = database.getReference("Event");
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -120,9 +124,9 @@ public class HomeTwoActivity extends AppCompatActivity {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     if(!clgid.equals("0")) {
                         if (childDataSnapshot.child("img_url").exists() && childDataSnapshot.child("college_id").getValue().toString().equals(clgid)) {
-                            gridCardView.removeAllViews();
                             eventname = childDataSnapshot.child("event_name").getValue().toString();
-                            createCardView(childDataSnapshot.child("img_url").getValue().toString(), eventname, childDataSnapshot.child("event_id").getValue().toString());
+                            eventid = childDataSnapshot.child("event_id").getValue().toString();
+                            createCardView(childDataSnapshot.child("img_url").getValue().toString(), eventname, eventid);
                         }
                     }
                 }
@@ -188,11 +192,36 @@ public class HomeTwoActivity extends AppCompatActivity {
     private View.OnClickListener getIdOnclickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(HomeTwoActivity.this,RegistrationActivity.class);
-            i.putExtra("Event_Id",v.getTag().toString());
-            i.putExtra("Event_Name",eventname);
-            i.putExtra("College_Name",clgname);
-            startActivity(i);
+            final String eid = v.getTag().toString();
+            dbRef = database.getReference("Event").child(eid);
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    event = dataSnapshot.getValue(Event.class);
+                    if(event.getMode_private()==0){
+                        modeprivate = "It is not a Private Event";
+                    }else {
+                        modeprivate = "It is a Private Event";
+                    }
+                    if(event.getGroup_event()==0){
+                        groupevent = "It is not a Group Event";
+                    }else {
+                        groupevent = "It is a Group Event\n\u2022Event allows maximum "+event.getGroup_members().toString()+" Members";
+                    }
+                    eventdetails = event.getEvent_name()+"\n\u2022Event is Organized by "+clgname+"\n\u2022"+groupevent+"\n\u2022"+modeprivate+"\n\u2022Registrations are started from Date "+event.getReg_start_date()+"\n\u2022Last Date of Registration is "+event.getReg_end_date()+"\n\u2022Last Date of Cancelling Registration is "+event.getCancel_date()+"\n\u2022Entry Fees for the Event is \u20B9"+event.getEvent_fees()+"\n\u2022THE BIG EVENT DATE IS "+event.getEvent_date();
+                    Intent i = new Intent(HomeTwoActivity.this, DetailActivity.class);
+                    i.putExtra("eventid",eid);
+                    i.putExtra("eventname",event.getEvent_name());
+                    i.putExtra("collegename",clgname);
+                    i.putExtra("param",eventdetails);
+                    getApplicationContext().startActivity(i);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     };
 
