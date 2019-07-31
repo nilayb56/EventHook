@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,6 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Spinner spinnerUserRole;
     private ArrayList<String> roleName = new ArrayList<>();
     private ArrayList<String> roleId = new ArrayList<>();
+    Context context;
 
     ViewPager viewPagerRegistration;
     RegistrationAdapter registrationAdapter;
@@ -69,7 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
         collegename = i.getStringExtra("collegename");
         groupmembers = Integer.parseInt(i.getStringExtra("grpmem"));
 
-        for(int k=0;k<groupmembers;k++){
+        /*for(int k=0;k<groupmembers;k++){
             users.add(new Users());
         }
         Log.e("Count: ",String.valueOf(users.size()));
@@ -78,7 +82,20 @@ public class RegistrationActivity extends AppCompatActivity {
 
         viewPagerRegistration = findViewById(R.id.viewPagerRegistration);
         viewPagerRegistration.setAdapter(registrationAdapter);
-        viewPagerRegistration.setPadding(30, 0, 30, 10);
+        viewPagerRegistration.setPadding(30, 0, 30, 10);*/
+
+        registrationAdapter = new RegistrationAdapter();
+        viewPagerRegistration = (ViewPager) findViewById (R.id.viewPagerRegistration);
+        viewPagerRegistration.setAdapter (registrationAdapter);
+
+        // Create an initial view to display; must be a subclass of FrameLayout.
+        context = getApplicationContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        FrameLayout v0 = (FrameLayout) inflater.inflate(R.layout.registration, null);
+        for(int k=0;k<groupmembers;k++) {
+            registrationAdapter.addView(v0, k);
+            registrationAdapter.notifyDataSetChanged();
+        }
 
         spinnerUserRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -108,6 +125,31 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void addView (View newPage)
+    {
+        int pageIndex = registrationAdapter.addView (newPage);
+        viewPagerRegistration.setCurrentItem (pageIndex, true);
+    }
+
+    public void removeView (View defunctPage)
+    {
+        int pageIndex = registrationAdapter.removeView (viewPagerRegistration, defunctPage);
+        // You might want to choose what page to display, if the current page was "defunctPage".
+        if (pageIndex == registrationAdapter.getCount())
+            pageIndex--;
+        viewPagerRegistration.setCurrentItem (pageIndex);
+    }
+
+    public View getCurrentPage ()
+    {
+        return registrationAdapter.getView (viewPagerRegistration.getCurrentItem());
+    }
+
+    public void setCurrentPage (View pageToShow)
+    {
+        viewPagerRegistration.setCurrentItem (registrationAdapter.getItemPosition (pageToShow), true);
     }
 
     private void loadSpinnerUserRole() {

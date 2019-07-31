@@ -215,7 +215,7 @@ public class HomeTwoActivity extends AppCompatActivity {
                     i.putExtra("collegename",clgname);
                     i.putExtra("grpmem",String.valueOf(event.getGroup_members()));
                     i.putExtra("param",eventdetails);
-                    getApplicationContext().startActivity(i);
+                    HomeTwoActivity.this.startActivity(i);
                 }
 
                 @Override

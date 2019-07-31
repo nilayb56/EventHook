@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:layout_width="120dp"
@@ -32,7 +33,7 @@
                 android:fontFamily="@font/merienda_regular"
                 android:text="Registration"
                 android:textColor="#03B08B"
-                android:textSize="35dp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -106,7 +107,6 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:foregroundGravity="center"
-            android:overScrollMode="never"
             android:layout_marginTop="30dp"></androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>

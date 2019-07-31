@@ -10,7 +10,9 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nilay.android.eventhook.R;
@@ -21,15 +23,25 @@ public class RegistrationAdapter extends PagerAdapter {
     private List<Users> users;
     private LayoutInflater layoutInflater;
     private Context context;
+    private ArrayList<View> views = new ArrayList<View>();
 
-    public RegistrationAdapter(List<Users> users, Context context) {
+    /*public RegistrationAdapter(List<Users> users, Context context) {
         this.users = users;
         this.context = context;
+    }*/
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        int index = views.indexOf (object);
+        if (index == -1)
+            return POSITION_NONE;
+        else
+            return index;
     }
 
     @Override
     public int getCount() {
-        return users.size();
+        return views.size();
     }
 
     @Override
@@ -40,7 +52,9 @@ public class RegistrationAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-        layoutInflater = LayoutInflater.from(context);
+        View v = views.get (position);
+        container.addView (v);
+        /*layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.registration, container, false);
 
         EditText txtUserName,txtEmailid,txtUserPwd;
@@ -51,25 +65,56 @@ public class RegistrationAdapter extends PagerAdapter {
         txtUserPwd = view.findViewById(R.id.txtUserPwd);
         btnUserReg = view.findViewById(R.id.btnUserReg);
 
-        /*txtUserName.setText(users.get(position).getUser_name());
+        *//*txtUserName.setText(users.get(position).getUser_name());
         txtEmailid.setText(users.get(position).getEmail_id());
-        txtUserPwd.setText(users.get(position).getPassword());*/
+        txtUserPwd.setText(users.get(position).getPassword());*//*
 
         btnUserReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(context, DetailActivity.class);
+                *//*Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("param", users.get(position).getUser_name());
-                context.startActivity(intent);*/
+                context.startActivity(intent);*//*
                 // finish();
             }
         });
-        container.addView(view, 0);
-        return view;
+        container.addView(view, 0);*/
+        return v;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View)object);
+        container.removeView (views.get (position));
     }
+
+    public int addView (View v)
+    {
+        return addView (v, views.size());
+    }
+
+    public int addView (View v, int position)
+    {
+        views.add (position, v);
+        return position;
+    }
+
+    public int removeView (ViewPager pager, View v)
+    {
+        return removeView (pager, views.indexOf(v));
+    }
+
+    public int removeView (ViewPager pager, int position)
+    {
+        pager.setAdapter (null);
+        views.remove (position);
+        pager.setAdapter (this);
+
+        return position;
+    }
+
+    public View getView (int position)
+    {
+        return views.get (position);
+    }
+
 }
