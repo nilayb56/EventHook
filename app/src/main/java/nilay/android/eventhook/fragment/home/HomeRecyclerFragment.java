@@ -156,7 +156,7 @@ public class HomeRecyclerFragment extends Fragment {
             if (getValueAt(position).equals("Login")) {
                 holder.fragmentClass = LoginFragment.class;
             } else if (getValueAt(position).equals("Result Dashboard")) {
-                holder.fragmentClass = AddCollegeFragment.class;
+                holder.fragmentClass = ResultDashboardFragment.class;
             } else {
                 holder.fragmentClass = CommonHomeMenuFragment.class;
             }

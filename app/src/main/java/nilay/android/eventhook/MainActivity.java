@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         i.setData(Uri.parse(url));
         startActivity(i);*/
 
-        Intent i = new Intent(getApplication(), HomeActivity.class);
+        Intent i = new Intent(getApplication(), SampleActivity.class);
         startActivity(i);
 
         btnLike = (Button) findViewById(R.id.btnLike);
