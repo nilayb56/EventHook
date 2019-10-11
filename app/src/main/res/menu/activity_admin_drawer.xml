@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <item android:title="Add">
+        <menu>
+            <item
+                android:id="@+id/nav_adminAddClg"
+                android:icon="@drawable/ic_add"
+                android:title="Add College" />
+            <item
+                android:id="@+id/nav_adminAddRole"
+                android:icon="@drawable/ic_add"
+                android:title="Add User Role" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_adminUpdtRole"
+        android:icon="@drawable/ic_update"
+        android:title="Change Admin" />
+
+    <item
+        android:id="@+id/nav_adminCnfClgAdminReq"
+        android:icon="@drawable/ic_check"
+        android:title="Authenticate College Admin" />
+
+    <!--<group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_adminReport"
+            android:icon="@drawable/ic_report"
+            android:title="Reports" />
+    </group>-->
+
+</menu>

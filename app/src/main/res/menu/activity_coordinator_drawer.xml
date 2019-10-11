@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_CrdReqVol"
+            android:icon="@drawable/ic_check"
+            android:title="Volunteer Requests" />
+    </group>
+
+    <item android:title="View">
+        <menu>
+            <item
+                android:id="@+id/nav_CrdViewVol"
+                android:icon="@drawable/ic_view"
+                android:title="Volunteers" />
+
+            <item
+                android:id="@+id/nav_CrdViewStudent"
+                android:icon="@drawable/ic_view"
+                android:title="Participants" />
+
+
+        </menu>
+    </item>
+
+    <item android:title="Duties">
+        <menu>
+            <item
+                android:id="@+id/nav_CrdAddDuty"
+                android:icon="@drawable/ic_add"
+                android:title="Add" />
+            <item
+                android:id="@+id/nav_CrdAssignDuty"
+                android:icon="@drawable/ic_assign"
+                android:title="Assign" />
+        </menu>
+    </item>
+
+    <item android:title="Results">
+        <menu>
+            <item
+                android:id="@+id/nav_CrdCnfResult"
+                android:icon="@drawable/ic_check"
+                android:title="Confirm/Update" />
+        </menu>
+    </item>
+
+</menu>

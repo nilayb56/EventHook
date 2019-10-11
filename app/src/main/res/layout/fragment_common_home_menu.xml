@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlCommonHomeMenu"
+    tools:context=".fragment.home.CommonHomeMenuFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.MaterialComponents.TextView"
+        android:layout_marginTop="5dp"
+        android:textSize="24sp"
+        android:textAlignment="center" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblTitle"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.MaterialComponents.TextView"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:fontFamily="@font/droidserif_bolditalic"
+        android:textColor="@color/lightGray"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lblDescription"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textSize="16sp"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Register"/>
+
+    <ImageView
+        android:id="@+id/imgLinkedIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_linkedin"
+        android:layout_below="@+id/btnRegister"
+        android:layout_centerHorizontal="true"
+        android:pointerIcon="hand"/>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700BE</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorText">#03B08B</color>
+    <color name="colorError">#D8000C</color>
+    <color name="color1">#424549</color>
+    <color name="color2">#7e455e</color>
+    <color name="color3">#796e25</color>
+    <color name="color4">#59717c</color>
+    <color name="colorGrey">#A9A9A9</color>
+    <color name="lightGray">#E8E8E8</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="productGridBackgroundColor">#FFFFFF</color>
+    <color name="eventAppBar">#9d60b5</color>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/merienda_regular"
+        android:text="Menu Item, Click Here!"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:id="@+id/flMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

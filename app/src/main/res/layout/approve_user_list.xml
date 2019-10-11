@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/lblUserClg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:layout_weight="2"
+            android:visibility="gone"/>
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/lblAprvUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_weight="2"/>
+
+        <ImageView
+            android:id="@+id/imgViewId"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:contentDescription="Click to View ID Card"
+            android:visibility="gone"/>
+
+
+        <ImageView
+            android:id="@+id/imgApproveUser"
+            android:src="@drawable/check"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:contentDescription="On Clicking this Button, You Approve Coordinator"/>
+
+        <ImageView
+            android:id="@+id/imgRejectUser"
+            android:src="@drawable/dustbin"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:contentDescription="On Clicking this Button, You Reject Coordinator and He/She will have to Register Again"/>
+
+    </TableRow>
+
+</TableLayout>
