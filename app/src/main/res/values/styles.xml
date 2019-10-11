@@ -32,4 +32,9 @@
         <item name="android:textSize">30sp</item>
     </style>
 
+    <style name="mySpinnerItemStyleWhite" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/lightGray</item>
+    </style>
+
 </resources>

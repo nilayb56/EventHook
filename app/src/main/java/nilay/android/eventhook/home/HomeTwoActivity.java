@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,14 +35,16 @@ import nilay.android.eventhook.interfaces.CollegeData;
 import nilay.android.eventhook.model.Event;
 import nilay.android.eventhook.model.EventImageList;
 import nilay.android.eventhook.registration.RegistrationActivity;
+import nilay.android.eventhook.viewmodels.CollegeViewModel;
 
-public class HomeTwoActivity extends AppCompatActivity implements CollegeData {
+public class HomeTwoActivity extends AppCompatActivity {
 
-    //private ImageView imgLogin, imgReg;
     private CardView cardSelectClg;
     private RecyclerView recyclerView;
     private LinearLayout linearHomeTwo;
     private EventCardRecyclerViewAdapter adapter;
+
+    private CollegeViewModel collegeViewModel;
 
     private String clgname = "";
     private String clgid = "";
@@ -56,8 +59,6 @@ public class HomeTwoActivity extends AppCompatActivity implements CollegeData {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         cardSelectClg = findViewById(R.id.cardSelectClg);
         linearHomeTwo = findViewById(R.id.linearHomeTwo);
-        /*imgLogin = findViewById(R.id.imgLogin);
-        imgReg = findViewById(R.id.imgReg);*/
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2, RecyclerView.VERTICAL, false));
@@ -65,6 +66,15 @@ public class HomeTwoActivity extends AppCompatActivity implements CollegeData {
         int largePadding = getResources().getDimensionPixelSize(R.dimen.event_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.event_grid_spacing_small);
         recyclerView.addItemDecoration(new EventGridItemDecoration(largePadding, smallPadding));
+
+        collegeViewModel = new ViewModelProvider(HomeTwoActivity.this).get(CollegeViewModel.class);
+        collegeViewModel.getCollegeId().observe(HomeTwoActivity.this, collegeId -> {
+            clgid = collegeId;
+            fillEvent();
+        });
+        collegeViewModel.getCollegeName().observe(HomeTwoActivity.this, collegeName -> {
+            clgname = collegeName;
+        });
 
         Class fragmentClass = GetCollegeFragment.class;
         Fragment fragment = null;
@@ -77,51 +87,36 @@ public class HomeTwoActivity extends AppCompatActivity implements CollegeData {
         assert fragment != null;
         fragmentManager.beginTransaction().replace(R.id.flGetClg, fragment).commit();
 
-        /*imgReg.setOnClickListener((View view) -> {
-            Intent i = new Intent(HomeTwoActivity.this, RegistrationActivity.class);
-            i.putExtra("role", "1");
-            startActivity(i);
-        });
-        imgLogin.setOnClickListener((View view) -> {
-            Intent i = new Intent(HomeTwoActivity.this, LoginActivity.class);
-            startActivity(i);
-        });*/
-
     }
 
     private void fillEvent() {
-        cardSelectClg.setVisibility(View.GONE);
-        dbRef = database.getReference("Event");
-        Query query = dbRef.orderByChild("college_id").equalTo(clgid);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<EventImageList> eventList = new ArrayList<>();
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Event event = childDataSnapshot.getValue(Event.class);
-                    if (event != null)
-                        if (!clgid.equals("0")) {
-                            if (childDataSnapshot.child("img_url").exists() && event.getCollege_id().equals(clgid)) {
-                                eventList.add(new EventImageList(clgname, event));
+        if(!clgid.equals("0")) {
+            cardSelectClg.setVisibility(View.GONE);
+            dbRef = database.getReference("Event");
+            Query query = dbRef.orderByChild("college_id").equalTo(clgid);
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<EventImageList> eventList = new ArrayList<>();
+                    for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                        Event event = childDataSnapshot.getValue(Event.class);
+                        if (event != null)
+                            if (!collegeViewModel.getCollegeId().equals("0")) {
+                                if (childDataSnapshot.child("img_url").exists() && event.getCollege_id().equals(clgid)) {
+                                    eventList.add(new EventImageList(clgname, event));
+                                }
                             }
-                        }
+                    }
+                    adapter = new EventCardRecyclerViewAdapter(eventList, HomeTwoActivity.this);
+                    recyclerView.setAdapter(adapter);
                 }
-                adapter = new EventCardRecyclerViewAdapter(eventList, HomeTwoActivity.this);
-                recyclerView.setAdapter(adapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-    }
-
-    @Override
-    public void clgdata(String id, String name) {
-        clgid = id;
-        clgname = name;
-        fillEvent();
+                }
+            });
+        }
     }
 
     @Override

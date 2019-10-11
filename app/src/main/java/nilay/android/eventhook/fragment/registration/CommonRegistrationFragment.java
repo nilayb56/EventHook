@@ -143,12 +143,6 @@ public class CommonRegistrationFragment extends Fragment {
             username = registrationViewModel.getUsername();
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-
-        } else {
-
-        }
-
         linearCRegData = view.findViewById(R.id.rlCRegData);
         rlUserData = view.findViewById(R.id.rlCUserData);
         cardCnfEmail = view.findViewById(R.id.cardCnfEmail);
@@ -214,7 +208,7 @@ public class CommonRegistrationFragment extends Fragment {
             }
         });
 
-        txtEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
+        //txtEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
         txtEmailOTP.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailOTP, txtOTPLayout));
 
         btnGetOTP.setOnClickListener((View v) -> {

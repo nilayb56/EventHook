@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGray"
     tools:context=".fragment.home.ResultDashboardFragment">
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Final Results"
@@ -16,5 +18,28 @@
         android:drawableTop="@drawable/oneimage"
         android:drawableStart="@drawable/twoimage"
         android:drawableEnd="@drawable/threeimage"/>
+
+    <!--<Spinner
+        android:id="@+id/spinnerCollege"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/mySpinnerItemStyleWhite"
+        android:layout_below="@+id/lblResult"
+        android:layout_marginTop="10dp"/>-->
+
+    <FrameLayout
+        android:id="@+id/flGetClg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/lblResult" />
+
+    <Spinner
+        android:id="@+id/spinnerEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/mySpinnerItemStyleWhite"
+        android:layout_below="@+id/flGetClg"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

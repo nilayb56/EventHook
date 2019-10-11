@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import nilay.android.eventhook.SampleActivity;
 import nilay.android.eventhook.home.HomeTwoActivity;
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.fragment.registration.AddMoreElementFragment;
@@ -253,7 +254,7 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Intent i = new Intent(RegistrationActivity.this, HomeTwoActivity.class);
+            Intent i = new Intent(RegistrationActivity.this, SampleActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             finish();

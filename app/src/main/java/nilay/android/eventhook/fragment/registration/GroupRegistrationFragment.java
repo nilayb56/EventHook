@@ -198,7 +198,7 @@ public class GroupRegistrationFragment extends Fragment {
             }
         });
 
-        txtGLeaderEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGLeaderEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
+        //txtGLeaderEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGLeaderEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
         txtGLeaderEmailOTP.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGLeaderEmailOTP, txtOTPLayout));
 
         btnGLeaderGetOTP.setOnClickListener((View v) -> {

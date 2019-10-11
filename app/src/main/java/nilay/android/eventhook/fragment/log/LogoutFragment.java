@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import nilay.android.eventhook.SampleActivity;
 import nilay.android.eventhook.home.HomeTwoActivity;
 
 public class LogoutFragment extends Fragment {
@@ -58,7 +59,7 @@ public class LogoutFragment extends Fragment {
         editor.putString("logFlag", "0");
         editor.apply();
 
-        Intent i = new Intent(getActivity(), HomeTwoActivity.class);
+        Intent i = new Intent(getActivity(), SampleActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP  | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
 
