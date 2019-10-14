@@ -43,6 +43,7 @@
                 android:textSize="18sp"
                 app:errorIconDrawable="@drawable/ic_warning"
                 app:startIconDrawable="@drawable/ic_textsms"
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText

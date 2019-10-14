@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import nilay.android.eventhook.AddFocusChangedListener;
 import nilay.android.eventhook.AddListenerOnTextChange;
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.model.College;
@@ -198,8 +199,8 @@ public class GroupRegistrationFragment extends Fragment {
             }
         });
 
-        //txtGLeaderEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGLeaderEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
-        txtGLeaderEmailOTP.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGLeaderEmailOTP, txtOTPLayout));
+        txtGLeaderEmailid.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtGLeaderEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
+        txtGLeaderEmailOTP.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtGLeaderEmailOTP, txtOTPLayout));
 
         btnGLeaderGetOTP.setOnClickListener((View v) -> {
             if (generatedOTP.equals("")) {
@@ -424,11 +425,11 @@ public class GroupRegistrationFragment extends Fragment {
             }
         });
 
-        txtGTypeClg.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGTypeClg, txtTypeClgLayout));
-        txtGLeaderName.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGLeaderName, txtUserNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
-        txtGroupPwd.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGroupPwd, txtUserPwdLayout));
-        txtCnfGroupPwd.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtCnfGroupPwd, txtUserCnfPwdLayout));
-        txtGroupName.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtGroupName, txtGroupNameLayout));
+        txtGTypeClg.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtGTypeClg, txtTypeClgLayout));
+        txtGLeaderName.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtGLeaderName, txtUserNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
+        txtGroupPwd.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtGroupPwd, txtUserPwdLayout));
+        txtCnfGroupPwd.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtCnfGroupPwd, txtUserCnfPwdLayout));
+        txtGroupName.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtGroupName, txtGroupNameLayout));
 
         btnGLeaderReg.setOnClickListener((View v) -> {
             emailid = txtGLeaderEmailid.getText().toString();

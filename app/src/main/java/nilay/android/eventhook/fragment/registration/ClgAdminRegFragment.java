@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -54,7 +55,7 @@ public class ClgAdminRegFragment extends Fragment {
 
     private Button btnChooseImg, btnUploadImg;
     private ImageView imgSelectImg;
-    private ProgressBar progressBar;
+    private ContentLoadingProgressBar progressBar;
 
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -156,9 +157,8 @@ public class ClgAdminRegFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             if(fragment!=null) {
-                                FragmentManager fragmentManager = getFragmentManager();
-                                if(fragmentManager!=null)
-                                    fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
+                                FragmentManager fragmentManager = getChildFragmentManager();
+                                fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
                             }
                         });
                     })

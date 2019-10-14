@@ -1,6 +1,7 @@
 package nilay.android.eventhook.fragment.getter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,15 +46,24 @@ public class GetCollegeFragment extends Fragment implements LifecycleOwner {
 
         CollegeViewModel clgModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CollegeViewModel.class);
         clgModel.getCollegeList().observe(Objects.requireNonNull(getActivity()), college -> {
-            spinnerGetClg.setAdapter(new ArrayAdapter<College>(view.getContext(), android.R.layout.simple_spinner_dropdown_item,college));
+            spinnerGetClg.setAdapter(new ArrayAdapter<College>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, college));
         });
 
         spinnerGetClg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i!=0){
+                TextView tv = (TextView) view;
+                if (homeViewModel.isMenu()) {
+                    if (tv != null) {
+                        tv.setTextColor(Color.WHITE);
+                        tv.setTextSize(20);
+                    }
+                } else {
+                    tv.setTextSize(20);
+                }
+                if (i != 0) {
                     College clg = (College) adapterView.getSelectedItem();
-                    Log.e("Clg: ",clg.getCollege_id());
+                    Log.e("Clg: ", clg.getCollege_id());
                     clgModel.getCollegeId().setValue(clg.getCollege_id());
                     clgModel.getCollegeName().setValue(clg.getCollege_name());
                 }

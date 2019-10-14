@@ -31,7 +31,7 @@ import nilay.android.eventhook.viewmodels.HomeViewModel;
 
 public class HomeRecyclerFragment extends Fragment {
     private final String[] data = {
-            "About", "Help", "Contact Us", "View Events/Register", "Login", "Result Dashboard"
+            "View Events/Register", "Login", "Result Dashboard", "About", "Help", "Contact Us"
     };
 
     @Override
@@ -107,49 +107,62 @@ public class HomeRecyclerFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NotNull final ViewHolder holder, final int position) {
 
-            holder.mTextView.setText(getValueAt(position));
-            holder.mTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_plus_green, 0, 0, 0);
+            if (!getValueAt(position).equals(" ")) {
 
-            holder.mView.setOnClickListener((View v) -> {
+                if (getValueAt(position).equals("About") || getValueAt(position).equals("Help") || getValueAt(position).equals("Contact Us")) {
+                    //holder.mTextView.setTextSize(R.dimen.home_text_view_height);
+                }
 
-                recyclerView.scrollToPosition(position);
+                holder.mTextView.setText(getValueAt(position));
+                holder.mTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_plus_green, 0, 0, 0);
 
-                homeViewModel.setMenuItem(getValueAt(position));
+                holder.mView.setOnClickListener((View v) -> {
 
-                imgLogo.setVisibility(View.GONE);
+                    recyclerView.scrollToPosition(position);
 
-                if (prevPos != null && position != prevPos) {
-                    holderList.get(prevPos).itemState = 0;
-                    prevTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_plus_green, 0, 0, 0);
-                    prevTextView.setBackgroundResource(R.drawable.border);
-                    prevFlMenuItem.setBackground(null);
-                    prevFlMenuItem.setVisibility(View.GONE);
-                    Fragment prevFragment = mActivity.getSupportFragmentManager().findFragmentByTag(getValueAt(position));
-                    if (prevFragment != null)
-                        mActivity.getSupportFragmentManager().beginTransaction().remove(prevFragment).commit();
-                } else {
-                    if (prevPos != null)
+                    homeViewModel.setMenuItem(getValueAt(position));
+
+                    imgLogo.setVisibility(View.GONE);
+
+                    if (prevPos != null && position != prevPos) {
+                        holderList.get(prevPos).itemState = 0;
+                        prevTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_plus_green, 0, 0, 0);
+                        prevTextView.setBackgroundResource(R.drawable.border);
+                        prevFlMenuItem.setBackground(null);
+                        prevFlMenuItem.setVisibility(View.GONE);
+                        Fragment prevFragment = mActivity.getSupportFragmentManager().findFragmentByTag(getValueAt(position));
+                        if (prevFragment != null)
+                            mActivity.getSupportFragmentManager().beginTransaction().remove(prevFragment).commit();
+                    } else {
+                        if (prevPos != null)
+                            imgLogo.setVisibility(View.VISIBLE);
+                    }
+
+                    if (holderList.get(position).itemState == 0) {
+                        holder.mTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_minus_red, 0, 0, 0);
+                        holder.flMenuItem.setVisibility(View.VISIBLE);
+                        holder.mTextView.setBackground(null);
+                        holder.flMenuItem.setBackgroundResource(R.drawable.border);
+                        holderList.get(position).itemState = 1;
+                        fillFrameLayout(holder, position);
+                        imgLogo.setVisibility(View.GONE);
+                    } else {
+                        holder.mTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_plus_green, 0, 0, 0);
+                        holder.flMenuItem.setVisibility(View.GONE);
+                        holder.mTextView.setBackgroundResource(R.drawable.border);
+                        holder.flMenuItem.setBackground(null);
+                        holderList.get(position).itemState = 0;
                         imgLogo.setVisibility(View.VISIBLE);
-                }
-
-                if (holderList.get(position).itemState == 0) {
-                    holder.mTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_minus_red, 0, 0, 0);
-                    holder.flMenuItem.setVisibility(View.VISIBLE);
-                    holder.mTextView.setBackground(null);
-                    holder.flMenuItem.setBackgroundResource(R.drawable.border);
-                    holderList.get(position).itemState = 1;
-                    fillFrameLayout(holder, position);
-                } else {
-                    holder.mTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_plus_green, 0, 0, 0);
-                    holder.flMenuItem.setVisibility(View.GONE);
-                    holder.mTextView.setBackgroundResource(R.drawable.border);
-                    holder.flMenuItem.setBackground(null);
-                    holderList.get(position).itemState = 0;
-                }
-                prevPos = position;
-                prevTextView = holder.mTextView;
-                prevFlMenuItem = holder.flMenuItem;
-            });
+                    }
+                    prevPos = position;
+                    prevTextView = holder.mTextView;
+                    prevFlMenuItem = holder.flMenuItem;
+                });
+            } else {
+                holder.mTextView.setText(" ");
+                holder.mTextView.setBackground(null);
+                holder.mView.setEnabled(false);
+            }
         }
 
         private void fillFrameLayout(@NotNull ViewHolder holder, int position) {

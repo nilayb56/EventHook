@@ -295,4 +295,11 @@ public class LoginFragment extends Fragment {
         editor.apply();
         Toast.makeText(getContext(), "Login Successful!", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (dialog != null)
+            dialog.dismiss();
+    }
 }

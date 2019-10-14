@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblEventName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextView"
+        android:textSize="16sp"
+        android:fontFamily="@font/droidserif_regular"/>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:max="100"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imgSelectImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="Choose Image for ID"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/choose" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnChooseImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/round"
+            android:text="Choose"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/btnUploadImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="75dp"
+            android:background="@drawable/round"
+            android:text="Upload"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
+
+</LinearLayout>

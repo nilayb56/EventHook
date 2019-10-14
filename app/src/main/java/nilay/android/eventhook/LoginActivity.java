@@ -51,6 +51,14 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUnm = (EditText) findViewById(R.id.txtUserName);
         txtPwd = (EditText) findViewById(R.id.txtPwd);
+
+        txtPwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+            }
+        });
+
         if (dialog != null)
             dialog.dismiss();
         btnLogin.setOnClickListener((View view) -> {

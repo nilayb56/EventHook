@@ -48,6 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+import nilay.android.eventhook.AddFocusChangedListener;
 import nilay.android.eventhook.AddListenerOnTextChange;
 import nilay.android.eventhook.GMailSender;
 import nilay.android.eventhook.R;
@@ -208,8 +209,8 @@ public class CommonRegistrationFragment extends Fragment {
             }
         });
 
-        //txtEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
-        txtEmailOTP.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailOTP, txtOTPLayout));
+        txtEmailid.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
+        txtEmailOTP.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtEmailOTP, txtOTPLayout));
 
         btnGetOTP.setOnClickListener((View v) -> {
             if (generatedOTP.equals("")) {
@@ -309,6 +310,7 @@ public class CommonRegistrationFragment extends Fragment {
                                                                                             })
                                                                                             .setNegativeButton("No", (DialogInterface dialog, int which) -> {
                                                                                                 txtEmailid.setText("");
+                                                                                                txtOTPLayout.setVisibility(View.GONE);
                                                                                             }).show();
 
                                                                                 }
@@ -363,6 +365,7 @@ public class CommonRegistrationFragment extends Fragment {
                                 }
                             }
                             if (flag) {
+                                txtOTPLayout.setVisibility(View.VISIBLE);
                                 generatedOTP = generateOTP();
                                 sendMail(getContext(), "One Time Key for EventHook Email Confirmation", "Your Key is ", emailid, generatedOTP);
                                 btnGetOTP.setText("Confirm");
@@ -370,6 +373,7 @@ public class CommonRegistrationFragment extends Fragment {
                                 btnResendOTP.setEnabled(true);
                                 txtOTPLayout.setVisibility(View.VISIBLE);
                                 txtEmailOTP.setEnabled(true);
+                                txtEmailOTP.requestFocus();
                                 Toast.makeText(view.getContext(), "OTP Sent to " + emailid, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -381,6 +385,7 @@ public class CommonRegistrationFragment extends Fragment {
                     });
                 }
             } else {
+                txtOTPLayout.setVisibility(View.VISIBLE);
                 userOTP = txtEmailOTP.getText().toString();
                 if (!emailid.equals(txtEmailid.getText().toString())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -390,9 +395,11 @@ public class CommonRegistrationFragment extends Fragment {
                                 emailid = txtEmailid.getText().toString();
                                 generatedOTP = "";
                                 btnGetOTP.setText("Get OTP");
+                                txtOTPLayout.setVisibility(View.GONE);
                                 btnResendOTP.setVisibility(View.GONE);
                                 txtEmailOTP.setText("");
                                 txtEmailOTP.setEnabled(false);
+                                txtEmailid.requestFocus();
                             })
                             .setNegativeButton("No", (DialogInterface dialog, int which) -> {
                                 txtEmailid.setText(emailid);
@@ -433,10 +440,10 @@ public class CommonRegistrationFragment extends Fragment {
             }
         });
 
-        txtTypeClg.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtTypeClg, txtTypeClgLayout));
-        txtUserName.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtUserName, txtUserNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
-        txtUserPwd.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtUserPwd, txtUserPwdLayout));
-        txtUserCnfPwd.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtUserCnfPwd, txtUserCnfPwdLayout));
+        txtTypeClg.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtTypeClg, txtTypeClgLayout));
+        txtUserName.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtUserName, txtUserNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
+        txtUserPwd.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtUserPwd, txtUserPwdLayout));
+        txtUserCnfPwd.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtUserCnfPwd, txtUserCnfPwdLayout));
 
         btnUserReg.setOnClickListener((View v) -> {
             username = txtUserName.getText().toString();

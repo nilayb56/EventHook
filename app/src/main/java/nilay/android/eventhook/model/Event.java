@@ -4,6 +4,7 @@ public class Event {
     private String event_id;
     private String event_name;
     private String college_id;
+    private Integer upload_work = 0;
     private Integer group_event = 0;
     private Integer group_members = 0;
     private Integer min_members = 0;
@@ -22,10 +23,11 @@ public class Event {
         this.event_name = event_name;
     }
 
-    public Event(String event_id, String event_name, String college_id, Integer group_event, Integer group_members, Integer min_members, String reg_start_date, String reg_end_date, String event_date, String cancel_date, String event_fees) {
+    public Event(String event_id, String event_name, String college_id, Integer upload_work, Integer group_event, Integer group_members, Integer min_members, String reg_start_date, String reg_end_date, String event_date, String cancel_date, String event_fees) {
         this.event_id = event_id;
         this.event_name = event_name;
         this.college_id = college_id;
+        this.upload_work = upload_work;
         this.group_event = group_event;
         this.group_members = group_members;
         this.min_members = min_members;
@@ -58,6 +60,14 @@ public class Event {
 
     public void setCollege_id(String college_id) {
         this.college_id = college_id;
+    }
+
+    public Integer getUpload_work() {
+        return upload_work;
+    }
+
+    public void setUpload_work(Integer upload_work) {
+        this.upload_work = upload_work;
     }
 
     public Integer getGroup_event() {

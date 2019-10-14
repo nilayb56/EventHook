@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import nilay.android.eventhook.AddFocusChangedListener;
 import nilay.android.eventhook.AddListenerOnTextChange;
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.model.UserParticipation;
@@ -128,8 +129,8 @@ public class GroupMemberFragment extends Fragment {
             btnMemberReg.setEnabled(true);
         }
 
-        txtMemberEmailid.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtMemberEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
-        txtMemberName.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtMemberName, txtUserNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
+        txtMemberEmailid.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtMemberEmailid, txtEmailLayout, "^\\w+([\\.-]?\\w+)*@[A-Za-z\\-]+([\\.-]?[A-Za-z\\-]+)*(\\.[A-Za-z\\-]{2,3})+$", "EMAIL ADDRESS NOT IN CORRECT FORMAT"));
+        txtMemberName.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtMemberName, txtUserNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
 
         btnMemberReg.setOnClickListener((View v) -> {
             membername = txtMemberName.getText().toString();

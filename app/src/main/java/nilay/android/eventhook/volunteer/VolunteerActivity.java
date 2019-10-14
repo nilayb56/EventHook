@@ -123,6 +123,7 @@ public class VolunteerActivity extends AppCompatActivity
                                 menu.findItem(R.id.nav_VolDutyResults).setVisible(false);
                                 menu.findItem(R.id.nav_volAttendance).setVisible(false);
                                 menu.findItem(R.id.nav_volFinance).setVisible(false);
+                                menu.findItem(R.id.nav_volQuickReg).setVisible(false);
                             } else {
                                 volViewModel.setDutyid(volunteer.getDuty_id());
 
@@ -153,18 +154,24 @@ public class VolunteerActivity extends AppCompatActivity
 
                     switch (volViewModel.getDutyname()) {
                         case "Quick Registrations":
+                            menu.findItem(R.id.nav_volAttendance).setVisible(false);
+                            menu.findItem(R.id.nav_VolDutyResults).setVisible(false);
+                            menu.findItem(R.id.nav_volFinance).setVisible(false);
                             break;
                         case "Attendance":
                             menu.findItem(R.id.nav_VolDutyResults).setVisible(false);
                             menu.findItem(R.id.nav_volFinance).setVisible(false);
+                            menu.findItem(R.id.nav_volQuickReg).setVisible(false);
                             break;
                         case "Submit Result":
                             menu.findItem(R.id.nav_volAttendance).setVisible(false);
                             menu.findItem(R.id.nav_volFinance).setVisible(false);
+                            menu.findItem(R.id.nav_volQuickReg).setVisible(false);
                             break;
                         case "Finance":
                             menu.findItem(R.id.nav_volAttendance).setVisible(false);
                             menu.findItem(R.id.nav_VolDutyResults).setVisible(false);
+                            menu.findItem(R.id.nav_volQuickReg).setVisible(false);
                             break;
                     }
                 }

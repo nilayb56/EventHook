@@ -9,14 +9,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
+import nilay.android.eventhook.model.Event;
 import nilay.android.eventhook.model.GroupMaster;
 import nilay.android.eventhook.model.UserParticipation;
 import nilay.android.eventhook.registration.RegistrationAdapter;
 
 public class StudentViewModel extends ViewModel {
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference dbRef = database.getReference();
-
     private Integer groupmembers = 0;
     private boolean leader = false;
     private String userid = "";
@@ -25,59 +25,8 @@ public class StudentViewModel extends ViewModel {
     private String clgid = "";
     private String clgname = "";
     private String eventid = "";
-    private RegistrationAdapter registrationAdapter;
-    private Integer viewPagerPos;
-
-    /*public StudentViewModel() {
-        dbRef = database.getReference("UserParticipation").child(eventid).child(userid);
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserParticipation userPart = new UserParticipation();
-                for(DataSnapshot childDataSnapShot : dataSnapshot.getChildren()){
-                    String user = childDataSnapShot.child("user_id").getValue().toString();
-                    if(user.equals(getUserid())){
-                        userPart = childDataSnapShot.getValue(UserParticipation.class);
-                        if(userPart!=null) {
-                            setEventid(userPart.getEvent_id());
-                            setGroupid(userPart.getGroup_id());
-                            break;
-                        }
-                    }
-                }
-                if(!getGroupid().equals("0")) {
-
-                    DatabaseReference dbReff = database.getReference("GroupMaster").child(getGroupid());
-                    dbReff.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot gdataSnapshot) {
-                            GroupMaster groupMaster = new GroupMaster();
-                            groupMaster = gdataSnapshot.getValue(GroupMaster.class);
-                            if (groupMaster != null) {
-                                if(groupMaster.getGroup_leader().equals(getUserid())){
-                                    setLeader(true);
-                                }
-                                setGroupmembers(groupMaster.getUnregistered_count());
-                                setGroupid(groupMaster.getGroup_id());
-                                setGroupname(groupMaster.getGroup_name());
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
+    private List<UserParticipation> participations;
+    private List<Event> participatedEvents;
 
     public String getUserid() {
         return userid;
@@ -143,19 +92,19 @@ public class StudentViewModel extends ViewModel {
         return groupmembers;
     }
 
-    public RegistrationAdapter getRegistrationAdapter() {
-        return registrationAdapter;
+    public List<UserParticipation> getParticipations() {
+        return participations;
     }
 
-    public void setRegistrationAdapter(RegistrationAdapter registrationAdapter) {
-        this.registrationAdapter = registrationAdapter;
+    public void setParticipations(List<UserParticipation> participations) {
+        this.participations = participations;
     }
 
-    public Integer getViewPagerPos() {
-        return viewPagerPos;
+    public List<Event> getParticipatedEvents() {
+        return participatedEvents;
     }
 
-    public void setViewPagerPos(Integer viewPagerPos) {
-        this.viewPagerPos = viewPagerPos;
+    public void setParticipatedEvents(List<Event> participatedEvents) {
+        this.participatedEvents = participatedEvents;
     }
 }

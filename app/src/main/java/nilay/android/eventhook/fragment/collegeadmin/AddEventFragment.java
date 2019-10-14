@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -70,7 +71,7 @@ public class AddEventFragment extends Fragment {
     private ImageView imgSelectImg;
     private TextInputLayout txtEventNameLayout, txtRegStartLayout, txtGrpMaxLayout, txtGrpMinLayout, txtRegEndLayout, txtEventDateLayout, txtCancelDateLayout, txtEventFeesLayout;
     private TextInputEditText txtAddEvent, txtRegStart, txtRegEnd, txtEventDate, txtGroupMembers, txtMinGroupMembers, txtCancelDate, txtEventFees;
-    private CheckBox checkGroupEvent;
+    private CheckBox checkGroupEvent, checkUploadWork;
     private ProgressBar progressBar;
     private MaterialButton btnAddEvent, btnChooseImg, btnUploadImg;
 
@@ -83,7 +84,7 @@ public class AddEventFragment extends Fragment {
     private String reg_end = "";
     private String event_date = "";
     private String cancel_date = "";
-    private Integer mode_private = 0;
+    private Integer upload_work = 0;
     private Integer group_event = 0;
     private Integer group_members = 0;
     private Integer mingroup_members = 0;
@@ -158,6 +159,7 @@ public class AddEventFragment extends Fragment {
         txtMinGroupMembers = view.findViewById(R.id.txtMinGroupMembers);
         txtEventFees = view.findViewById(R.id.txtEventFees);
 
+        checkUploadWork = view.findViewById(R.id.checkUploadWork);
         checkGroupEvent = view.findViewById(R.id.checkGroupEvent);
         progressBar = view.findViewById(R.id.progressBar);
 
@@ -194,7 +196,20 @@ public class AddEventFragment extends Fragment {
         btnUploadImg.setOnClickListener((View v) -> {
             progressBar.setVisibility(View.VISIBLE);
             imgSelectImg.setVisibility(View.GONE);
+            btnChooseImg.setVisibility(View.GONE);
+            btnUploadImg.setVisibility(View.GONE);
             uploadImage();
+        });
+
+        checkUploadWork.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(getContext(), "Final Submission to be Uploaded!", Toast.LENGTH_LONG).show();
+                upload_work = 1;
+
+            } else {
+                Toast.makeText(getContext(), "NO Content to be Uploaded!", Toast.LENGTH_LONG).show();
+                upload_work = 0;
+            }
         });
 
         checkGroupEvent.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
@@ -295,22 +310,33 @@ public class AddEventFragment extends Fragment {
     private void addEvent() {
         dbRef = database.getReference("Event");
         eventid = dbRef.push().getKey();
-        Event event = new Event(eventid, eventname, collegeid, group_event, group_members, mingroup_members, reg_start, reg_end, event_date, cancel_date, event_fees);
+        Event event = new Event(eventid, eventname, collegeid, upload_work, group_event, group_members, mingroup_members, reg_start, reg_end, event_date, cancel_date, event_fees);
         dbRef.child(eventid).setValue(event);
         Toast.makeText(getContext(), "Event Added", Toast.LENGTH_SHORT).show();
-        clearForm();
+        //clearForm();
     }
 
     private void clearForm() {
         for (int i = 0, count = linearAddEvent.getChildCount(); i < count; ++i) {
             View view = linearAddEvent.getChildAt(i);
             if (view instanceof EditText) {
-                ((EditText) view).setText("");
+                ((TextInputEditText) view).setText("");
             }
             if (view instanceof CheckBox) {
                 ((CheckBox) view).setChecked(false);
             }
         }
+        /*Fragment fragment = null;
+        Class fragmentClass = AddEventFragment.class;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (fragment != null) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            fragmentManager.beginTransaction().replace(rlUploadImg.getId(), fragment).commit();
+        }*/
     }
 
     private void chooseImage() {
@@ -336,7 +362,7 @@ public class AddEventFragment extends Fragment {
                                     progressBar.setVisibility(View.GONE);
                                     rlUploadImg.setVisibility(View.GONE);
                                     linearAddEvent.setVisibility(View.VISIBLE);
-                                    clearVar();
+                                    clearForm();
                                 }
                             });
                         }
@@ -391,7 +417,6 @@ public class AddEventFragment extends Fragment {
         reg_end = "";
         reg_start = "";
         event_date = "";
-        mode_private = 0;
         group_event = 0;
         group_members = 0;
         mingroup_members = 0;

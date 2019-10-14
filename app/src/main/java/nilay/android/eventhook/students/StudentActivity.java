@@ -32,11 +32,18 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.Menu;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import nilay.android.eventhook.fragment.student.UploadWorkFragment;
 import nilay.android.eventhook.home.HomeTwoActivity;
 import nilay.android.eventhook.fragment.log.LogoutFragment;
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.fragment.student.StAddMemberFragment;
 import nilay.android.eventhook.model.College;
+import nilay.android.eventhook.model.Event;
+import nilay.android.eventhook.model.UserParticipation;
 import nilay.android.eventhook.viewmodels.RegistrationViewModel;
 import nilay.android.eventhook.viewmodels.StudentViewModel;
 
@@ -46,12 +53,7 @@ public class StudentActivity extends AppCompatActivity
     private String userid = "";
     private String username = "";
     private String clgid = "";
-    private String clgname = "";
     private String roleid = "";
-    private String eventid = "";
-    private String groupid = "";
-    private String groupname = "";
-    private Integer groupmembers;
 
     private StudentViewModel studentViewModel;
     private RegistrationViewModel registrationViewModel;
@@ -84,7 +86,7 @@ public class StudentActivity extends AppCompatActivity
         clgid = sharedPref.getString("collegeid", "");
         roleid = sharedPref.getString("roleid", "");
         lblNavUserName.setText(username);
-        if(sharedPref.getString("logFlag", "").toString().equals("0")){
+        if (sharedPref.getString("logFlag", "").toString().equals("0")) {
             Intent it = new Intent(getApplicationContext(), HomeTwoActivity.class);
             startActivity(it);
         }
@@ -94,16 +96,16 @@ public class StudentActivity extends AppCompatActivity
 
         studentViewModel.setUserid(userid);
         studentViewModel.setClgid(clgid);
-        registrationViewModel.userType(roleid,"Student");
+        registrationViewModel.userType(roleid, "Student");
 
         dbRef = database.getReference("College").child(studentViewModel.getClgid());
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 College college = dataSnapshot.getValue(College.class);
-                if(college!=null) {
+                if (college != null) {
                     studentViewModel.setClgname(college.getCollege_name());
-                    registrationViewModel.selectedCollege(studentViewModel.getClgid(),studentViewModel.getClgname());
+                    registrationViewModel.selectedCollege(studentViewModel.getClgid(), studentViewModel.getClgname());
 
                     DatabaseReference dbref = database.getReference("GroupMaster");
                     String userid = studentViewModel.getUserid();
@@ -112,11 +114,12 @@ public class StudentActivity extends AppCompatActivity
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             boolean exists = dataSnapshot.exists();
-                            if(exists){
+                            if (exists) {
                                 studentViewModel.setLeader(true);
-
+                                getParticipatedEvents(menu, studentViewModel.getUserid());
                             } else {
                                 menu.findItem(R.id.nav_StAddMember).setVisible(false);
+                                getParticipatedEvents(menu, studentViewModel.getUserid());
                             }
                         }
 
@@ -126,9 +129,9 @@ public class StudentActivity extends AppCompatActivity
                         }
                     });
                 } else {
-                    if(!clgid.equals("")){
+                    if (!clgid.equals("")) {
                         studentViewModel.setClgname(clgid);
-                        registrationViewModel.selectedCollege(studentViewModel.getClgid(),studentViewModel.getClgname());
+                        registrationViewModel.selectedCollege(studentViewModel.getClgid(), studentViewModel.getClgname());
 
                         DatabaseReference dbref = database.getReference("GroupMaster");
                         String userid = studentViewModel.getUserid();
@@ -137,7 +140,7 @@ public class StudentActivity extends AppCompatActivity
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 boolean exists = dataSnapshot.exists();
-                                if(exists){
+                                if (exists) {
                                     studentViewModel.setLeader(true);
                                 } else {
                                     menu.findItem(R.id.nav_StAddMember).setVisible(false);
@@ -158,6 +161,57 @@ public class StudentActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void getParticipatedEvents(Menu menu, String userId) {
+        dbRef = database.getReference("UserParticipation");
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<UserParticipation> userParticipations = new ArrayList<>();
+                for (DataSnapshot eventDataSnapShot : dataSnapshot.getChildren()) {
+
+                    for (DataSnapshot partDataSnapShot : eventDataSnapShot.getChildren()) {
+
+                        UserParticipation participation = partDataSnapShot.getValue(UserParticipation.class);
+                        if(participation!=null && participation.getUser_id().equals(userId)) {
+                            userParticipations.add(participation);
+                        }
+
+                    }
+
+                }
+                studentViewModel.setParticipations(userParticipations);
+                checkUploadWorkEvents(userParticipations);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkUploadWorkEvents(List<UserParticipation> userParticipations) {
+        dbRef = database.getReference("Event");
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Event> events = new ArrayList<>();
+                for(UserParticipation participation : userParticipations){
+                    Event event = dataSnapshot.child(participation.getEvent_id()).getValue(Event.class);
+                    if(Objects.requireNonNull(event).getUpload_work()==1)
+                        events.add(event);
+                }
+                studentViewModel.setParticipatedEvents(events);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -191,7 +245,7 @@ public class StudentActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(fragment!=null) {
+        if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flStudent, fragment).commit();
             item.setChecked(true);
@@ -208,11 +262,13 @@ public class StudentActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_StAddMember) {
-            if(studentViewModel.isLeader()){
+            if (studentViewModel.isLeader()) {
                 fragmentClass = StAddMemberFragment.class;
             } else {
                 item.setVisible(false);
             }
+        } else if (id == R.id.nav_StUploadWork) {
+            fragmentClass = UploadWorkFragment.class;
         }
 
         try {
@@ -220,7 +276,7 @@ public class StudentActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(fragment!=null) {
+        if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flStudent, fragment).commit();
             item.setChecked(true);

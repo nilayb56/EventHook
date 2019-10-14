@@ -11,4 +11,6 @@
     <dimen name="event_card_image_height">108dp</dimen>
 
     <dimen name="shr_product_grid_reveal_height">200dp</dimen>
+
+    <dimen name="home_text_view_height">16sp</dimen>
 </resources>

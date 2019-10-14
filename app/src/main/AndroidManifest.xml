@@ -13,23 +13,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SampleActivity"></activity>
+        <activity android:name=".SampleActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".volunteer.VolunteerActivity"
             android:label="@string/title_activity_volunteer"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".coordinator.CoordinatorActivity"
             android:label="@string/title_activity_coordinator"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".students.StudentActivity"
             android:label="@string/title_activity_student"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".collegeadmin.ClgAdminActivity"
             android:label="@string/title_activity_clg_admin"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".mainadmin.AdminActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

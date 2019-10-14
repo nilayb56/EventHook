@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:background="@drawable/bgapps"
     tools:context=".fragment.coordinator.CodAddDutyFragment">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/applogo" />
-
-    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -27,6 +14,7 @@
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
         android:layout_marginStart="18dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="18dp"
         app:cardCornerRadius="12dp">
 
@@ -46,9 +34,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="10dp"
                 android:fontFamily="@font/merienda_regular"
                 android:text="Add Volunteer Duty"
                 android:textColor="#03B08B"
@@ -59,47 +47,53 @@
 
     </androidx.cardview.widget.CardView>
 
-    <RelativeLayout
-        android:layout_margin="15dp"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/lblDutyInfo"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Volunteer Duties such as \n•Quick Registration •Attendance\n•Result Submission •Finance\nis ALREADY ADDED. Updation can be done.\nPlease add Duties other than these."
-            android:textSize="16sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_margin="15dp">
 
-        <EditText
-            android:id="@+id/txtCodAddDuty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblDutyInfo"
-            android:layout_marginTop="5dp"
-            android:hint="Duty Type"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/lblDutyInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Volunteer Duties such as \n•Quick Registration •Attendance\n•Result Submission •Finance\nis ALREADY ADDED. Updation can be done.\nPlease add Duties other than these."
+                android:textSize="16sp" />
 
-        <CheckBox
-            android:id="@+id/checkDutyRepeat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtCodAddDuty"
-            android:text="Check if this Duty is to be Assigned to MORE THAN ONE Volunteer"/>
+            <EditText
+                android:id="@+id/txtCodAddDuty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblDutyInfo"
+                android:layout_marginTop="5dp"
+                android:hint="Duty Type"
+                android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btnAddDuty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/checkDutyRepeat"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round"
-            android:text="Add"
-            android:textColor="#fff" />
+            <CheckBox
+                android:id="@+id/checkDutyRepeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCodAddDuty"
+                android:text="Check if this Duty is to be Assigned to MORE THAN ONE Volunteer" />
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/btnAddDuty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/checkDutyRepeat"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/round"
+                android:text="Add"
+                android:textColor="#fff" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </LinearLayout>
