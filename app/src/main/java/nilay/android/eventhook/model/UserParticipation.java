@@ -12,6 +12,7 @@ public class UserParticipation {
     private String payment_status = "0";
     private String before_event = "0";
     private String event_day = "0";
+    private Integer content_submission = 0;
 
     public UserParticipation() {
     }
@@ -121,6 +122,14 @@ public class UserParticipation {
 
     public void setEvent_day(String event_day) {
         this.event_day = event_day;
+    }
+
+    public Integer getContent_submission() {
+        return content_submission;
+    }
+
+    public void setContent_submission(Integer content_submission) {
+        this.content_submission = content_submission;
     }
 
     @Override

@@ -174,7 +174,7 @@ public class StudentActivity extends AppCompatActivity
                     for (DataSnapshot partDataSnapShot : eventDataSnapShot.getChildren()) {
 
                         UserParticipation participation = partDataSnapShot.getValue(UserParticipation.class);
-                        if(participation!=null && participation.getUser_id().equals(userId)) {
+                        if (participation != null && participation.getUser_id().equals(userId) && participation.getContent_submission() == 0) {
                             userParticipations.add(participation);
                         }
 
@@ -198,9 +198,9 @@ public class StudentActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Event> events = new ArrayList<>();
-                for(UserParticipation participation : userParticipations){
+                for (UserParticipation participation : userParticipations) {
                     Event event = dataSnapshot.child(participation.getEvent_id()).getValue(Event.class);
-                    if(Objects.requireNonNull(event).getUpload_work()==1)
+                    if (Objects.requireNonNull(event).getUpload_work() == 1)
                         events.add(event);
                 }
                 studentViewModel.setParticipatedEvents(events);

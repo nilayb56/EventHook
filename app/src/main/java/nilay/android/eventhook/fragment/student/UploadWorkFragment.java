@@ -78,8 +78,7 @@ public class UploadWorkFragment extends Fragment {
 
         RecyclerView recyclerEventWork = view.findViewById(R.id.recyclerEventWork);
         recyclerEventWork.setLayoutManager(new LinearLayoutManager(recyclerEventWork.getContext()));
-        recyclerEventWork.setAdapter(new UploadWorkRecyclerViewAdapter(getActivity(), recyclerEventWork,
-                studentViewModel.getParticipations(), studentViewModel.getParticipatedEvents()));
+        recyclerEventWork.setAdapter(new UploadWorkRecyclerViewAdapter(getActivity(), recyclerEventWork, studentViewModel.getParticipatedEvents()));
 
 
 
@@ -90,7 +89,6 @@ public class UploadWorkFragment extends Fragment {
 
         private FragmentActivity mActivity;
         private RecyclerView recyclerView;
-        private List<UserParticipation> participations;
         private List<Event> participatedEvents;
         private StudentViewModel studentViewModel;
 
@@ -102,10 +100,9 @@ public class UploadWorkFragment extends Fragment {
         private FirebaseStorage storage = FirebaseStorage.getInstance();
         private StorageReference storageReference = storage.getReference();
 
-        public UploadWorkRecyclerViewAdapter(FragmentActivity mActivity, RecyclerView recyclerView, List<UserParticipation> participations, List<Event> participatedEvents) {
+        public UploadWorkRecyclerViewAdapter(FragmentActivity mActivity, RecyclerView recyclerView, List<Event> participatedEvents) {
             this.mActivity = mActivity;
             this.recyclerView = recyclerView;
-            this.participations = participations;
             this.participatedEvents = participatedEvents;
             studentViewModel = new ViewModelProvider(mActivity).get(StudentViewModel.class);
         }
@@ -138,7 +135,6 @@ public class UploadWorkFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Event event = participatedEvents.get(position);
-            UserParticipation participation = participations.get(position);
 
             holder.lblEventName.setText("Event Name: "+event.getEvent_name()+"\nPlease Choose the Image for Final Submission!!");
 
@@ -153,33 +149,27 @@ public class UploadWorkFragment extends Fragment {
             holder.btnUploadImg.setOnClickListener((View v) -> {
                 holder.progressBar.setVisibility(View.VISIBLE);
                 holder.imgSelectImg.setVisibility(View.GONE);
-                uploadImage(holder, event);
+                uploadImage(holder, event, position);
             });
 
         }
 
-        private void uploadImage(ViewHolder holder, Event event) {
+        private void uploadImage(ViewHolder holder, Event event, int position) {
             if (studentViewModel.getFilePath() != null) {
                 final StorageReference ref = storageReference.child("EventStudentSubmission").child(studentViewModel.getUserid());
                 ref.putFile(studentViewModel.getFilePath())
                         .addOnSuccessListener((UploadTask.TaskSnapshot taskSnapshot) -> {
                             Toast.makeText(getContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
                             ref.getDownloadUrl().addOnSuccessListener((Uri uri) -> {
-                                EventStudentSubmission submission = new EventStudentSubmission(studentViewModel.getUserid(),event.getEvent_id());
+                                EventStudentSubmission submission = new EventStudentSubmission(uri.toString());
                                 dbRef = database.getReference("EventStudentSubmission").child(studentViewModel.getUserid());
-                                dbRef.setValue(submission);
+                                dbRef.child(event.getEvent_id()).setValue(submission);
+                                DatabaseReference partRef = database.getReference("UserParticipation").child(event.getEvent_id());
+                                partRef.child(studentViewModel.getUserid()).child("content_submission").setValue(1);
                                 holder.progressBar.setVisibility(View.GONE);
-                                Fragment fragment = null;
-                                Class fragmentClass = CommonRegistrationFragment.class;
-                                try {
-                                    fragment = (Fragment) fragmentClass.newInstance();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                if(fragment!=null) {
-                                    FragmentManager fragmentManager = getChildFragmentManager();
-                                    fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
-                                }
+                                participatedEvents.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, participatedEvents.size());
                             });
                         })
                         .addOnFailureListener((@NonNull Exception e) -> {
@@ -200,7 +190,7 @@ public class UploadWorkFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return participations.size();
+            return participatedEvents.size();
         }
     }
 
