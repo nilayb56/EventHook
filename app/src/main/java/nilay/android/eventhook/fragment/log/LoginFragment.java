@@ -64,6 +64,7 @@ public class LoginFragment extends Fragment {
         txtEmailAddress = view.findViewById(R.id.emailAddress);
         txtPassword = view.findViewById(R.id.password);
         btnLogin = view.findViewById(R.id.btnLogin);
+        txtEmailAddress.requestFocus();
 
         if (dialog != null)
             dialog.dismiss();

@@ -319,7 +319,7 @@ public class AddEventFragment extends Fragment {
     private void clearForm() {
         for (int i = 0, count = linearAddEvent.getChildCount(); i < count; ++i) {
             View view = linearAddEvent.getChildAt(i);
-            if (view instanceof EditText) {
+            if (view instanceof TextInputEditText) {
                 ((TextInputEditText) view).setText("");
             }
             if (view instanceof CheckBox) {

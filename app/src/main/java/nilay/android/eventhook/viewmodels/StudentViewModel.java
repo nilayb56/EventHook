@@ -1,5 +1,8 @@
 package nilay.android.eventhook.viewmodels;
 
+import android.net.Uri;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
@@ -27,6 +30,8 @@ public class StudentViewModel extends ViewModel {
     private String eventid = "";
     private List<UserParticipation> participations;
     private List<Event> participatedEvents;
+    private ImageView imageview;
+    private Uri filePath;
 
     public String getUserid() {
         return userid;
@@ -106,5 +111,21 @@ public class StudentViewModel extends ViewModel {
 
     public void setParticipatedEvents(List<Event> participatedEvents) {
         this.participatedEvents = participatedEvents;
+    }
+
+    public ImageView getImageview() {
+        return imageview;
+    }
+
+    public void setImageview(ImageView imageview) {
+        this.imageview = imageview;
+    }
+
+    public Uri getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(Uri filePath) {
+        this.filePath = filePath;
     }
 }

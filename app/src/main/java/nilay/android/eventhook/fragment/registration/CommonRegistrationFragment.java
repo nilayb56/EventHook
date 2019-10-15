@@ -517,6 +517,7 @@ public class CommonRegistrationFragment extends Fragment {
                 btnUserReg.setVisibility(View.GONE);
                 btnGetOTP.setVisibility(View.VISIBLE);
                 btnResendOTP.setVisibility(View.GONE);
+                txtOTPLayout.setVisibility(View.GONE);
             }
         });
 
