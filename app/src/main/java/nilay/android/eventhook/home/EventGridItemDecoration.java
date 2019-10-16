@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Custom item decoration for a vertical {@link ProductGridFragment} {@link RecyclerView}. Adds a
+ * Custom item decoration for a vertical {@link nilay.android.eventhook.fragment.home.HomeRecyclerFragment} {@link RecyclerView}. Adds a
  * small amount of padding to the left of grid items, and a large amount of padding to the right.
  */
 public class EventGridItemDecoration extends RecyclerView.ItemDecoration {

@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nilay.android.eventhook.model.Event;
@@ -31,7 +32,8 @@ public class StudentViewModel extends ViewModel {
     private List<UserParticipation> participations;
     private List<Event> participatedEvents;
     private ImageView imageview;
-    private Uri filePath;
+    private Integer holderPosition;
+    private ArrayList<Uri> filePathList;
 
     public String getUserid() {
         return userid;
@@ -121,11 +123,19 @@ public class StudentViewModel extends ViewModel {
         this.imageview = imageview;
     }
 
-    public Uri getFilePath() {
-        return filePath;
+    public Integer getHolderPosition() {
+        return holderPosition;
     }
 
-    public void setFilePath(Uri filePath) {
-        this.filePath = filePath;
+    public void setHolderPosition(Integer holderPosition) {
+        this.holderPosition = holderPosition;
+    }
+
+    public ArrayList<Uri> getFilePathList() {
+        return filePathList;
+    }
+
+    public void setFilePathList(ArrayList<Uri> filePathList) {
+        this.filePathList = filePathList;
     }
 }

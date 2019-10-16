@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -123,7 +125,7 @@ public class HomeTwoActivity extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        int orientation = getScreenOrientation();
+        int orientation = getScreenOrientation(getWindowManager());
         if (orientation == 1) {
             linearHomeTwo.setBackground(getResources().getDrawable(R.drawable.bgfinal));
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2, RecyclerView.VERTICAL, false));
@@ -133,8 +135,8 @@ public class HomeTwoActivity extends AppCompatActivity {
         }
     }
 
-    protected int getScreenOrientation() {
-        Display getOrient = getWindowManager().getDefaultDisplay();
+    public static int getScreenOrientation(WindowManager windowManager) {
+        Display getOrient = windowManager.getDefaultDisplay();
         Point size = new Point();
 
         getOrient.getSize(size);

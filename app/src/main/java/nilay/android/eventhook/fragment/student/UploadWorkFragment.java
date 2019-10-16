@@ -32,6 +32,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,10 +55,10 @@ public class UploadWorkFragment extends Fragment {
         int PICK_IMAGE_REQUEST = 71;
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
-            studentViewModel.setFilePath(data.getData());
+            studentViewModel.getFilePathList().set(studentViewModel.getHolderPosition(),data.getData());
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getActivity()).getContentResolver(), studentViewModel.getFilePath());
-                File file = new File(studentViewModel.getFilePath().toString());
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getActivity()).getContentResolver(), data.getData());
+                File file = new File(data.getData().toString());
                 long fileLength = file.length();
                 fileLength = fileLength / 1024;
                 //Toast.makeText(getContext(), String.valueOf(fileLength), Toast.LENGTH_SHORT).show();
@@ -91,6 +92,7 @@ public class UploadWorkFragment extends Fragment {
         private RecyclerView recyclerView;
         private List<Event> participatedEvents;
         private StudentViewModel studentViewModel;
+        private ArrayList<Uri> filePathList = new ArrayList<>();
 
         private final int PICK_IMAGE_REQUEST = 71;
 
@@ -129,6 +131,8 @@ public class UploadWorkFragment extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.upload_work_recycler_layout, parent, false);
+            filePathList.add(Uri.parse(""));
+            studentViewModel.setFilePathList(filePathList);
             return new ViewHolder(view);
         }
 
@@ -144,6 +148,7 @@ public class UploadWorkFragment extends Fragment {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
                 studentViewModel.setImageview(holder.imgSelectImg);
+                studentViewModel.setHolderPosition(position);
             });
 
             holder.btnUploadImg.setOnClickListener((View v) -> {
@@ -155,15 +160,16 @@ public class UploadWorkFragment extends Fragment {
         }
 
         private void uploadImage(ViewHolder holder, Event event, int position) {
-            if (studentViewModel.getFilePath() != null) {
-                final StorageReference ref = storageReference.child("EventStudentSubmission").child(studentViewModel.getUserid());
-                ref.putFile(studentViewModel.getFilePath())
+            if (studentViewModel.getFilePathList().get(position) != null) {
+                final StorageReference ref = storageReference.child("EventStudentSubmission").child(studentViewModel.getUserid()).child(event.getEvent_id());
+                ref.putFile(studentViewModel.getFilePathList().get(position))
                         .addOnSuccessListener((UploadTask.TaskSnapshot taskSnapshot) -> {
                             Toast.makeText(getContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
-                            ref.getDownloadUrl().addOnSuccessListener((Uri uri) -> {
-                                EventStudentSubmission submission = new EventStudentSubmission(uri.toString());
-                                dbRef = database.getReference("EventStudentSubmission").child(studentViewModel.getUserid());
-                                dbRef.child(event.getEvent_id()).setValue(submission);
+                            ref.getDownloadUrl().addOnSuccessListener((Uri uri) -> { dbRef = database.getReference("EventStudentSubmission");
+                                String id = dbRef.push().getKey();
+                                assert id != null;
+                                EventStudentSubmission submission = new EventStudentSubmission(id,studentViewModel.getUserid(), event.getEvent_id(), uri.toString());
+                                dbRef.child(id).setValue(submission);
                                 DatabaseReference partRef = database.getReference("UserParticipation").child(event.getEvent_id());
                                 partRef.child(studentViewModel.getUserid()).child("content_submission").setValue(1);
                                 holder.progressBar.setVisibility(View.GONE);

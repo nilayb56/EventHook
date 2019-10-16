@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import nilay.android.eventhook.fragment.student.StudentVotesFragment;
 import nilay.android.eventhook.fragment.student.UploadWorkFragment;
 import nilay.android.eventhook.home.HomeTwoActivity;
 import nilay.android.eventhook.fragment.log.LogoutFragment;
@@ -182,7 +183,7 @@ public class StudentActivity extends AppCompatActivity
 
                 }
                 studentViewModel.setParticipations(userParticipations);
-                checkUploadWorkEvents(userParticipations);
+                checkUploadWorkEvents(menu, userParticipations);
             }
 
             @Override
@@ -192,7 +193,7 @@ public class StudentActivity extends AppCompatActivity
         });
     }
 
-    private void checkUploadWorkEvents(List<UserParticipation> userParticipations) {
+    private void checkUploadWorkEvents(Menu menu, List<UserParticipation> userParticipations) {
         dbRef = database.getReference("Event");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -203,7 +204,10 @@ public class StudentActivity extends AppCompatActivity
                     if (Objects.requireNonNull(event).getUpload_work() == 1)
                         events.add(event);
                 }
-                studentViewModel.setParticipatedEvents(events);
+                if (events.size() == 0)
+                    menu.findItem(R.id.nav_StUploadWork).setVisible(false);
+                else
+                    studentViewModel.setParticipatedEvents(events);
             }
 
             @Override
@@ -269,6 +273,8 @@ public class StudentActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_StUploadWork) {
             fragmentClass = UploadWorkFragment.class;
+        } else if (id == R.id.nav_StRatings) {
+            fragmentClass = StudentVotesFragment.class;
         }
 
         try {
