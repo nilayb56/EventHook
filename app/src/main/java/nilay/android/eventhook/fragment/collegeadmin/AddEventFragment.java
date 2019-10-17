@@ -1,12 +1,14 @@
 package nilay.android.eventhook.fragment.collegeadmin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -71,7 +74,7 @@ public class AddEventFragment extends Fragment {
     private ImageView imgSelectImg;
     private TextInputLayout txtEventNameLayout, txtRegStartLayout, txtGrpMaxLayout, txtGrpMinLayout, txtRegEndLayout, txtEventDateLayout, txtCancelDateLayout, txtEventFeesLayout;
     private TextInputEditText txtAddEvent, txtRegStart, txtRegEnd, txtEventDate, txtGroupMembers, txtMinGroupMembers, txtCancelDate, txtEventFees;
-    private CheckBox checkGroupEvent, checkUploadWork;
+    private CheckBox checkGroupEvent, checkUploadWork, checkThemes;
     private ProgressBar progressBar;
     private MaterialButton btnAddEvent, btnChooseImg, btnUploadImg;
 
@@ -140,6 +143,7 @@ public class AddEventFragment extends Fragment {
         lblClgData.setText(collegename);
         rlUploadImg = view.findViewById(R.id.rlUploadImg);
         linearAddEvent = view.findViewById(R.id.linearAddEvent);
+        FrameLayout flAddThemes = view.findViewById(R.id.flAddThemes);
 
         txtEventNameLayout = view.findViewById(R.id.txtEventNameLayout);
         txtGrpMaxLayout = view.findViewById(R.id.txtGrpMaxLayout);
@@ -159,6 +163,7 @@ public class AddEventFragment extends Fragment {
         txtMinGroupMembers = view.findViewById(R.id.txtMinGroupMembers);
         txtEventFees = view.findViewById(R.id.txtEventFees);
 
+        checkThemes = view.findViewById(R.id.checkThemes);
         checkUploadWork = view.findViewById(R.id.checkUploadWork);
         checkGroupEvent = view.findViewById(R.id.checkGroupEvent);
         progressBar = view.findViewById(R.id.progressBar);
@@ -201,10 +206,45 @@ public class AddEventFragment extends Fragment {
             uploadImage();
         });
 
+        checkThemes.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+            if(isChecked){
+                Fragment fragment = null;
+                Class fragmentClass = AddThemeFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getChildFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.flAddThemes, fragment, "AddEventFragment").commit();
+                }
+                Toast.makeText(getContext(), "Event with Themes!", Toast.LENGTH_LONG).show();
+            } else {
+                Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("AddEventFragment");
+                if(fragment != null)
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                flAddThemes.removeAllViews();
+                Toast.makeText(getContext(), "Event with NO Theme!", Toast.LENGTH_LONG).show();
+            }
+        });
+
         checkUploadWork.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             if (isChecked) {
-                Toast.makeText(getContext(), "Final Submission to be Uploaded!", Toast.LENGTH_LONG).show();
-                upload_work = 1;
+                if(group_event==0) {
+                    Toast.makeText(getContext(), "Final Submission to be Uploaded!", Toast.LENGTH_LONG).show();
+                    upload_work = 1;
+                } else {
+                    new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+                            .setTitle("Warning!\n")
+                            .setMessage("Submissions for Group Events is NOT OPEN!!")
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.yes, (DialogInterface dialog, int which) -> {
+                                checkUploadWork.setChecked(false);
+                            })
+                            .setIcon(android.R.drawable.stat_sys_warning)
+                            .show();
+                }
 
             } else {
                 Toast.makeText(getContext(), "NO Content to be Uploaded!", Toast.LENGTH_LONG).show();
@@ -214,10 +254,23 @@ public class AddEventFragment extends Fragment {
 
         checkGroupEvent.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             if (isChecked) {
-                Toast.makeText(getContext(), "Group Event", Toast.LENGTH_SHORT).show();
-                group_event = 1;
-                txtGrpMaxLayout.setVisibility(View.VISIBLE);
-                txtGrpMinLayout.setVisibility(View.VISIBLE);
+                if(upload_work==0) {
+                    Toast.makeText(getContext(), "Group Event", Toast.LENGTH_SHORT).show();
+                    group_event = 1;
+                    txtGrpMaxLayout.setVisibility(View.VISIBLE);
+                    txtGrpMinLayout.setVisibility(View.VISIBLE);
+                } else {
+                    new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+                            .setTitle("Warning!\n")
+                            .setMessage("Submissions for Group Events is NOT OPEN!!")
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.yes, (DialogInterface dialog, int which) -> {
+                                checkUploadWork.setChecked(false);
+                                checkGroupEvent.setChecked(false);
+                            })
+                            .setIcon(android.R.drawable.stat_sys_warning)
+                            .show();
+                }
             } else {
                 Toast.makeText(getContext(), "Single Person Event", Toast.LENGTH_SHORT).show();
                 group_event = 0;
@@ -311,9 +364,12 @@ public class AddEventFragment extends Fragment {
         dbRef = database.getReference("Event");
         eventid = dbRef.push().getKey();
         Event event = new Event(eventid, eventname, collegeid, upload_work, group_event, group_members, mingroup_members, reg_start, reg_end, event_date, cancel_date, event_fees);
+        assert eventid != null;
         dbRef.child(eventid).setValue(event);
+        clgAdminViewModel.setNewRegisteredEventId(eventid);
+        clgAdminViewModel.getEventRegState().setValue("1");
         Toast.makeText(getContext(), "Event Added", Toast.LENGTH_SHORT).show();
-        //clearForm();
+        clearForm();
     }
 
     private void clearForm() {
@@ -326,17 +382,6 @@ public class AddEventFragment extends Fragment {
                 ((CheckBox) view).setChecked(false);
             }
         }
-        /*Fragment fragment = null;
-        Class fragmentClass = AddEventFragment.class;
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (fragment != null) {
-            FragmentManager fragmentManager = getChildFragmentManager();
-            fragmentManager.beginTransaction().replace(rlUploadImg.getId(), fragment).commit();
-        }*/
     }
 
     private void chooseImage() {

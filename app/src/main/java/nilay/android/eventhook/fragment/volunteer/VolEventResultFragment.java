@@ -40,6 +40,7 @@ import java.util.List;
 
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.model.EventResult;
+import nilay.android.eventhook.model.EventStudentSubmission;
 import nilay.android.eventhook.model.GroupMaster;
 import nilay.android.eventhook.model.UserParticipation;
 import nilay.android.eventhook.model.Volunteer;
@@ -59,7 +60,7 @@ public class VolEventResultFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private TextView lblContEvent, lblPartType;
+    private TextView lblContEvent, lblRatings;
     private Spinner spinnerContestants, spinnerRank;
     private Button btnContResult;
 
@@ -101,9 +102,11 @@ public class VolEventResultFragment extends Fragment {
         view.startAnimation(animfadein);
 
         lblContEvent = view.findViewById(R.id.lblContEvent);
+        lblRatings = view.findViewById(R.id.lblRatings);
         spinnerRank = view.findViewById(R.id.spinnerRank);
         spinnerContestants = view.findViewById(R.id.spinnerContestants);
         btnContResult = view.findViewById(R.id.btnContResult);
+        lblRatings.setVisibility(View.GONE);
 
         if (getActivity() != null) {
             volViewModel = new ViewModelProvider(getActivity()).get(VolunteerViewModel.class);
@@ -168,6 +171,7 @@ public class VolEventResultFragment extends Fragment {
                     volViewModel.setWinnerName(group.getGroup_name());
                 } else {
                     UserParticipation participant = (UserParticipation) parent.getSelectedItem();
+                    checkIfRatingsPresent(participant);
                     volViewModel.setWinnerId(participant.getUser_id());
                     volViewModel.setWinnerName(participant.getUser_name());
                 }
@@ -256,8 +260,33 @@ public class VolEventResultFragment extends Fragment {
                         contestants.add(childDataSnapShot.getValue(UserParticipation.class));
                 }
                 volViewModel.setParticipantList(contestants);
-                if(getContext()!=null)
-                    spinnerContestants.setAdapter(new ArrayAdapter<UserParticipation>(getContext(), android.R.layout.simple_spinner_dropdown_item,volViewModel.getParticipantList()));
+                if(getContext()!=null) {
+                    spinnerContestants.setAdapter(new ArrayAdapter<UserParticipation>(getContext(), android.R.layout.simple_spinner_dropdown_item, volViewModel.getParticipantList()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkIfRatingsPresent(UserParticipation participant) {
+        dbRef = database.getReference("EventStudentSubmission");
+        Query query = dbRef.orderByChild("event_id").equalTo(participant.getEvent_id());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    for (DataSnapshot childDataSnapShot : dataSnapshot.getChildren()) {
+                        EventStudentSubmission submission = childDataSnapShot.getValue(EventStudentSubmission.class);
+                        assert submission != null;
+                        lblRatings.setVisibility(View.VISIBLE);
+                        lblRatings.setText("Ratings: "+submission.getRatings());
+                    }
+                } else
+                    lblRatings.setVisibility(View.GONE);
             }
 
             @Override

@@ -63,6 +63,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
+                android:id="@+id/checkThemes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Themes"
+                android:textSize="18sp" />
+
+            <FrameLayout
+                android:id="@+id/flAddThemes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
                 android:id="@+id/checkUploadWork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

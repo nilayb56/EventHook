@@ -12,10 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 import nilay.android.eventhook.R;
 import nilay.android.eventhook.model.EventImageList;
+import nilay.android.eventhook.model.EventTheme;
 import nilay.android.eventhook.registration.RegistrationActivity;
 
 public class EventCardRecyclerViewAdapter extends RecyclerView.Adapter<EventCardViewHolder> {
@@ -23,6 +30,8 @@ public class EventCardRecyclerViewAdapter extends RecyclerView.Adapter<EventCard
     private List<EventImageList> eventImageLists;
     private ImageRequester imageRequester;
     private Activity activity;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference dbRef = database.getReference("EventTheme");
 
     public EventCardRecyclerViewAdapter(List<EventImageList> eventImageLists, Activity activity) {
         this.eventImageLists = eventImageLists;
@@ -59,47 +68,76 @@ public class EventCardRecyclerViewAdapter extends RecyclerView.Adapter<EventCard
                 TextView min = eventDetails.findViewById(R.id.min);
                 TextView maxmem = eventDetails.findViewById(R.id.maxmem);
                 TextView minmem = eventDetails.findViewById(R.id.minmem);
-                if(eventImage.getEvent().getGroup_event()==0){
-                    group.setText("Event is Not a Group Event");
-                    max.setVisibility(View.GONE);
-                    min.setVisibility(View.GONE);
-                    maxmem.setVisibility(View.GONE);
-                    minmem.setVisibility(View.GONE);
-                } else {
-                    max.setVisibility(View.VISIBLE);
-                    min.setVisibility(View.VISIBLE);
-                    maxmem.setVisibility(View.VISIBLE);
-                    minmem.setVisibility(View.VISIBLE);
-                    maxmem.setText(String.valueOf(eventImage.getEvent().getGroup_members()));
-                    minmem.setText(String.valueOf(eventImage.getEvent().getMin_members()));
-                }
-                TextView regstart = eventDetails.findViewById(R.id.regstart);
-                regstart.setText(eventImage.getEvent().getReg_start_date());
-                TextView regend = eventDetails.findViewById(R.id.regend);
-                regend.setText(eventImage.getEvent().getReg_end_date());
-                TextView regcancel = eventDetails.findViewById(R.id.regcancel);
-                regcancel.setText(eventImage.getEvent().getCancel_date());
-                TextView regfees = eventDetails.findViewById(R.id.regfees);
-                regfees.setText("");
-                regfees.append("\u20B9"+eventImage.getEvent().getEvent_fees());
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("Event Details\n")
-                        .setCancelable(false)
-                        .setView(eventDetails)
-                        .setPositiveButton("Register", (DialogInterface dialog, int which) -> {
-                            Intent i = new Intent(activity, RegistrationActivity.class);
-                            i.putExtra("eventid",eventImage.getEvent().getEvent_id());
-                            i.putExtra("eventname",eventImage.getEvent().getEvent_name());
-                            i.putExtra("collegename",eventImage.getCollegeName());
-                            i.putExtra("memmax",String.valueOf(eventImage.getEvent().getGroup_members()));
-                            i.putExtra("memmin",String.valueOf(eventImage.getEvent().getMin_members()));
-                            i.putExtra("fees",eventImage.getEvent().getEvent_fees());
-                            activity.startActivity(i);
-                        })
-                        .setNegativeButton("Cancel", (DialogInterface dialog, int which) -> {
-                        })
-                        .setIcon(android.R.drawable.ic_media_play)
-                        .show();
+                TextView lblThemes = eventDetails.findViewById(R.id.lblThemes);
+                TextView themes = eventDetails.findViewById(R.id.themes);
+                TextView themeList = eventDetails.findViewById(R.id.themeList);
+
+                dbRef.child(eventImage.getEvent().getEvent_id())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()) {
+                                    lblThemes.setText("Event Themes");
+                                    themes.setVisibility(View.VISIBLE);
+                                    themeList.setVisibility(View.VISIBLE);
+                                    for (DataSnapshot themeSnapShot : dataSnapshot.getChildren()) {
+                                        EventTheme theme = themeSnapShot.getValue(EventTheme.class);
+                                        assert theme != null;
+                                        themeList.append("\u2022"+theme.getTheme_name()+"\n");
+                                    }
+                                } else {
+                                    lblThemes.setText("No Event Themes");
+                                    themes.setVisibility(View.GONE);
+                                    themeList.setVisibility(View.GONE);
+                                }
+                                if(eventImage.getEvent().getGroup_event()==0){
+                                    group.setText("Event is Not a Group Event");
+                                    max.setVisibility(View.GONE);
+                                    min.setVisibility(View.GONE);
+                                    maxmem.setVisibility(View.GONE);
+                                    minmem.setVisibility(View.GONE);
+                                } else {
+                                    max.setVisibility(View.VISIBLE);
+                                    min.setVisibility(View.VISIBLE);
+                                    maxmem.setVisibility(View.VISIBLE);
+                                    minmem.setVisibility(View.VISIBLE);
+                                    maxmem.setText(String.valueOf(eventImage.getEvent().getGroup_members()));
+                                    minmem.setText(String.valueOf(eventImage.getEvent().getMin_members()));
+                                }
+                                TextView regstart = eventDetails.findViewById(R.id.regstart);
+                                regstart.setText(eventImage.getEvent().getReg_start_date());
+                                TextView regend = eventDetails.findViewById(R.id.regend);
+                                regend.setText(eventImage.getEvent().getReg_end_date());
+                                TextView regcancel = eventDetails.findViewById(R.id.regcancel);
+                                regcancel.setText(eventImage.getEvent().getCancel_date());
+                                TextView regfees = eventDetails.findViewById(R.id.regfees);
+                                regfees.setText("");
+                                regfees.append("\u20B9"+eventImage.getEvent().getEvent_fees());
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                                builder.setTitle("Event Details\n")
+                                        .setCancelable(false)
+                                        .setView(eventDetails)
+                                        .setPositiveButton("Register", (DialogInterface dialog, int which) -> {
+                                            Intent i = new Intent(activity, RegistrationActivity.class);
+                                            i.putExtra("eventid",eventImage.getEvent().getEvent_id());
+                                            i.putExtra("eventname",eventImage.getEvent().getEvent_name());
+                                            i.putExtra("collegename",eventImage.getCollegeName());
+                                            i.putExtra("memmax",String.valueOf(eventImage.getEvent().getGroup_members()));
+                                            i.putExtra("memmin",String.valueOf(eventImage.getEvent().getMin_members()));
+                                            i.putExtra("fees",eventImage.getEvent().getEvent_fees());
+                                            activity.startActivity(i);
+                                        })
+                                        .setNegativeButton("Cancel", (DialogInterface dialog, int which) -> {
+                                        })
+                                        .setIcon(android.R.drawable.ic_media_play)
+                                        .show();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
 
             });
         }

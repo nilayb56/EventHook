@@ -136,6 +136,49 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/lblThemes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/droidserif_bold"
+                android:text="Event Themes"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/themes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Themes"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/themeList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="#000" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
                 android:id="@+id/reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

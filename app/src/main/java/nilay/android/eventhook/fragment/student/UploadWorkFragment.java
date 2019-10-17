@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -19,13 +20,19 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,6 +47,7 @@ import nilay.android.eventhook.R;
 import nilay.android.eventhook.fragment.registration.CommonRegistrationFragment;
 import nilay.android.eventhook.model.Event;
 import nilay.android.eventhook.model.EventStudentSubmission;
+import nilay.android.eventhook.model.EventTheme;
 import nilay.android.eventhook.model.UserParticipation;
 import nilay.android.eventhook.viewmodels.StudentViewModel;
 
@@ -77,11 +85,15 @@ public class UploadWorkFragment extends Fragment {
         if(getActivity()!=null)
             studentViewModel = new ViewModelProvider(getActivity()).get(StudentViewModel.class);
 
+        CardView cardIfPresent = view.findViewById(R.id.cardIfPresent);
         RecyclerView recyclerEventWork = view.findViewById(R.id.recyclerEventWork);
         recyclerEventWork.setLayoutManager(new LinearLayoutManager(recyclerEventWork.getContext()));
         recyclerEventWork.setAdapter(new UploadWorkRecyclerViewAdapter(getActivity(), recyclerEventWork, studentViewModel.getParticipatedEvents()));
 
-
+        if(studentViewModel.getParticipatedEvents().size()==0)
+            cardIfPresent.setVisibility(View.VISIBLE);
+        else
+            cardIfPresent.setVisibility(View.GONE);
 
         return view;
     }
@@ -112,12 +124,15 @@ public class UploadWorkFragment extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public final MaterialTextView lblEventName;
+            public final Spinner spinnerThemes;
             public final ContentLoadingProgressBar progressBar;
             public final ImageView imgSelectImg;
             public final Button btnChooseImg, btnUploadImg;
+            public EventTheme selectedTheme;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
+                spinnerThemes = itemView.findViewById(R.id.spinnerThemes);
                 lblEventName = itemView.findViewById(R.id.lblEventName);
                 progressBar = itemView.findViewById(R.id.progressBar);
                 imgSelectImg = itemView.findViewById(R.id.imgSelectImg);
@@ -139,6 +154,46 @@ public class UploadWorkFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Event event = participatedEvents.get(position);
+
+            dbRef = database.getReference("EventTheme").child(event.getEvent_id());
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        List<EventTheme> themeList = new ArrayList<>();
+                        themeList.add(new EventTheme("0","0","Select Theme"));
+                        holder.spinnerThemes.setVisibility(View.VISIBLE);
+                        for (DataSnapshot themeSnapShot : dataSnapshot.getChildren()) {
+                            EventTheme theme = themeSnapShot.getValue(EventTheme.class);
+                            assert theme != null;
+                            themeList.add(theme);
+                        }
+                        holder.spinnerThemes.setAdapter(new ArrayAdapter<EventTheme>(mActivity,android.R.layout.simple_spinner_dropdown_item,themeList));
+                    } else {
+                        holder.spinnerThemes.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            holder.spinnerThemes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if(position!=0){
+                        holder.selectedTheme = (EventTheme) parent.getSelectedItem();
+                        Toast.makeText(mActivity, "Selected Theme: "+holder.selectedTheme.getTheme_name(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             holder.lblEventName.setText("Event Name: "+event.getEvent_name()+"\nPlease Choose the Image for Final Submission!!");
 
@@ -168,7 +223,7 @@ public class UploadWorkFragment extends Fragment {
                             ref.getDownloadUrl().addOnSuccessListener((Uri uri) -> { dbRef = database.getReference("EventStudentSubmission");
                                 String id = dbRef.push().getKey();
                                 assert id != null;
-                                EventStudentSubmission submission = new EventStudentSubmission(id,studentViewModel.getUserid(), event.getEvent_id(), uri.toString());
+                                EventStudentSubmission submission = new EventStudentSubmission(id,studentViewModel.getUserid(), event.getEvent_id(), holder.selectedTheme.getTheme_id(), uri.toString());
                                 dbRef.child(id).setValue(submission);
                                 DatabaseReference partRef = database.getReference("UserParticipation").child(event.getEvent_id());
                                 partRef.child(studentViewModel.getUserid()).child("content_submission").setValue(1);

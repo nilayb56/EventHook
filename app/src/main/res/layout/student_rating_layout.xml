@@ -15,6 +15,24 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/lblEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/times_new_roman_normal"
+            android:text="Event Name"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/lblEventTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/times_new_roman_normal"
+            android:text="Theme"
+            android:textSize="20sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

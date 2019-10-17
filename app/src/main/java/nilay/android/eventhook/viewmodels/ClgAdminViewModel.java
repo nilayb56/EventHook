@@ -12,7 +12,9 @@ public class ClgAdminViewModel extends ViewModel implements CollegeData {
     private String collegename = "";
     private String eventid = "";
     private String eventname = "";
+    private String newRegisteredEventId = "";
     private MutableLiveData<String> stateChange;
+    private MutableLiveData<String> eventRegState;
 
     public MutableLiveData<String> getStateChange() {
         if(stateChange==null){
@@ -21,6 +23,15 @@ public class ClgAdminViewModel extends ViewModel implements CollegeData {
             this.stateChange = state;
         }
         return stateChange;
+    }
+
+    public MutableLiveData<String> getEventRegState() {
+        if(eventRegState==null){
+            MutableLiveData<String> state = new MutableLiveData<>();
+            state.setValue("0");
+            this.eventRegState = state;
+        }
+        return eventRegState;
     }
 
     public String getRoleid() {
@@ -59,5 +70,13 @@ public class ClgAdminViewModel extends ViewModel implements CollegeData {
 
     public void setEventname(String eventname) {
         this.eventname = eventname;
+    }
+
+    public String getNewRegisteredEventId() {
+        return newRegisteredEventId;
+    }
+
+    public void setNewRegisteredEventId(String newRegisteredEventId) {
+        this.newRegisteredEventId = newRegisteredEventId;
     }
 }
