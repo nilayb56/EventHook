@@ -1,17 +1,24 @@
 package nilay.android.eventhook.fragment.log;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +33,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.Objects;
 
@@ -69,10 +82,50 @@ public class LoginFragment extends Fragment {
         if (dialog != null)
             dialog.dismiss();
 
+        if(ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+
+        } else {
+            Dexter.withActivity(getActivity())
+                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .withListener(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            if(response.isPermanentlyDenied()){
+                                new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
+                                        .setTitle("Permission Denied\n")
+                                        .setMessage("Permission to access device location is permanently denied! \nYou need to go to Settings to Allow the Permission.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", (DialogInterface dialog, int which) -> {
+                                            Intent intent = new Intent();
+                                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                            intent.setData(Uri.fromParts("package", getActivity().getPackageName(),null));
+                                        })
+                                        .setNegativeButton("Cancel", null)
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+                            } else {
+                                Toast.makeText(getContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    })
+                    .check();
+        }
+
         txtEmailAddress.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailAddress, emailAddressLayout));
         txtPassword.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtPassword, passwordLayout));
 
         btnLogin.setOnClickListener((View v) -> {
+
             String username = txtEmailAddress.getText().toString();
             String password = txtPassword.getText().toString();
 
