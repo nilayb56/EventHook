@@ -5,6 +5,8 @@ public class Volunteer {
     private String event_id="";
     private String valid_user="0";
     private String duty_id="0";
+    private double latitude = 0d;
+    private double longitude = 0d;
 
     public Volunteer() {
     }
@@ -46,6 +48,22 @@ public class Volunteer {
 
     public void setDuty_id(String duty_id) {
         this.duty_id = duty_id;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override

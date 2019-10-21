@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -49,9 +52,11 @@ import nilay.android.eventhook.collegeadmin.ClgAdminActivity;
 import nilay.android.eventhook.coordinator.CoordinatorActivity;
 import nilay.android.eventhook.mainadmin.AdminActivity;
 import nilay.android.eventhook.model.CollegeAdmin;
+import nilay.android.eventhook.model.UserLocation;
 import nilay.android.eventhook.model.UserParticipation;
 import nilay.android.eventhook.model.UserRole;
 import nilay.android.eventhook.model.Users;
+import nilay.android.eventhook.model.Volunteer;
 import nilay.android.eventhook.students.StudentActivity;
 import nilay.android.eventhook.volunteer.VolunteerActivity;
 
@@ -64,6 +69,8 @@ public class LoginFragment extends Fragment {
     private boolean logFlag = false;
     private boolean notParticipant = true;
     private Dialog dialog;
+    private LocationManager locationManager;
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference();
 
@@ -82,9 +89,7 @@ public class LoginFragment extends Fragment {
         if (dialog != null)
             dialog.dismiss();
 
-        if(ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-
-        } else {
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Dexter.withActivity(getActivity())
                     .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     .withListener(new PermissionListener() {
@@ -95,7 +100,7 @@ public class LoginFragment extends Fragment {
 
                         @Override
                         public void onPermissionDenied(PermissionDeniedResponse response) {
-                            if(response.isPermanentlyDenied()){
+                            if (response.isPermanentlyDenied()) {
                                 new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                                         .setTitle("Permission Denied\n")
                                         .setMessage("Permission to access device location is permanently denied! \nYou need to go to Settings to Allow the Permission.")
@@ -103,7 +108,7 @@ public class LoginFragment extends Fragment {
                                         .setPositiveButton("OK", (DialogInterface dialog, int which) -> {
                                             Intent intent = new Intent();
                                             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                            intent.setData(Uri.fromParts("package", getActivity().getPackageName(),null));
+                                            intent.setData(Uri.fromParts("package", getActivity().getPackageName(), null));
                                         })
                                         .setNegativeButton("Cancel", null)
                                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -266,9 +271,12 @@ public class LoginFragment extends Fragment {
                         for (DataSnapshot userDataSnapShot : eventChildDataSnapShot.getChildren()) {
 
                             if (userDataSnapShot.child("user_id").getValue().toString().equals(users.getUser_id())) {
-
+                                Volunteer volunteer = userDataSnapShot.getValue(Volunteer.class);
                                 if (userDataSnapShot.child("valid_user").getValue().toString().equals("1")) {
-
+                                    if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                        locationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
+                                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new AddLocationListener(volunteer));
+                                    }
                                     checkifParticipant(users);
 
                                 } else {
@@ -356,4 +364,41 @@ public class LoginFragment extends Fragment {
         if (dialog != null)
             dialog.dismiss();
     }
+
+    private class AddLocationListener implements LocationListener {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference dbRef = database.getReference("Volunteer");
+        Volunteer volunteer;
+        int pos = 0;
+
+        public AddLocationListener(Volunteer volunteer) {
+            this.volunteer = volunteer;
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            if(pos==0) {
+                dbRef.child(volunteer.getEvent_id()).child(volunteer.getUser_id()).child("latitude").setValue(location.getLatitude());
+                dbRef.child(volunteer.getEvent_id()).child(volunteer.getUser_id()).child("longitude").setValue(location.getLongitude());
+                pos=1;
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    }
+
 }

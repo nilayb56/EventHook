@@ -2,6 +2,7 @@ package nilay.android.eventhook.students;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationListener;
 import android.os.Bundle;
 
 import android.preference.PreferenceManager;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import nilay.android.eventhook.fragment.student.LocationFragment;
 import nilay.android.eventhook.fragment.student.StudentVotesFragment;
 import nilay.android.eventhook.fragment.student.UploadWorkFragment;
 import nilay.android.eventhook.home.HomeTwoActivity;
@@ -275,6 +277,8 @@ public class StudentActivity extends AppCompatActivity
             fragmentClass = UploadWorkFragment.class;
         } else if (id == R.id.nav_StRatings) {
             fragmentClass = StudentVotesFragment.class;
+        } else if (id == R.id.nav_StLocation) {
+                fragmentClass = LocationFragment.class;
         }
 
         try {
