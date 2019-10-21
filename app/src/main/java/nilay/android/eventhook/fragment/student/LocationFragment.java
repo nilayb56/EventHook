@@ -123,7 +123,7 @@ public class LocationFragment extends Fragment implements LocationListener {
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 });
 
-                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                dbRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot eventDataSnapShot : dataSnapshot.getChildren()) {

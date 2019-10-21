@@ -43,6 +43,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import nilay.android.eventhook.AddListenerOnTextChange;
@@ -52,7 +55,7 @@ import nilay.android.eventhook.collegeadmin.ClgAdminActivity;
 import nilay.android.eventhook.coordinator.CoordinatorActivity;
 import nilay.android.eventhook.mainadmin.AdminActivity;
 import nilay.android.eventhook.model.CollegeAdmin;
-import nilay.android.eventhook.model.UserLocation;
+import nilay.android.eventhook.model.UserLog;
 import nilay.android.eventhook.model.UserParticipation;
 import nilay.android.eventhook.model.UserRole;
 import nilay.android.eventhook.model.Users;
@@ -71,6 +74,9 @@ public class LoginFragment extends Fragment {
     private Dialog dialog;
     private LocationManager locationManager;
 
+    private String date = "";
+    private String time = "";
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference();
 
@@ -85,6 +91,13 @@ public class LoginFragment extends Fragment {
         txtPassword = view.findViewById(R.id.password);
         btnLogin = view.findViewById(R.id.btnLogin);
         txtEmailAddress.requestFocus();
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String dateTime = dateFormat.format(c.getTime());
+        date = dateTime.substring(0,10);
+        time = dateTime.substring(10,19);
+        System.out.println(date +" "+time);
+
 
         if (dialog != null)
             dialog.dismiss();
@@ -165,8 +178,15 @@ public class LoginFragment extends Fragment {
                                                 UserRole userRole = childSnapshot.getValue(UserRole.class);
                                                 assert userRole != null;
                                                 String role = userRole.getRole_name();
+                                                DatabaseReference logRef = database.getReference("UserLog");
+                                                String id = "";
+                                                UserLog userLog = new UserLog();
                                                 switch (role) {
                                                     case "Admin":
+                                                        id = logRef.push().getKey();
+                                                        assert id != null;
+                                                        userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                                        logRef.child(id).setValue(userLog);
                                                         Intent i = new Intent(getActivity(), AdminActivity.class);
                                                         startActivity(i);
                                                         Toast.makeText(getContext(), "Login Successful!", Toast.LENGTH_LONG).show();
@@ -178,6 +198,11 @@ public class LoginFragment extends Fragment {
                                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                                 CollegeAdmin collegeAdmin = dataSnapshot.getValue(CollegeAdmin.class);
                                                                 if (collegeAdmin != null && collegeAdmin.getValid_user().equals("1")) {
+                                                                    DatabaseReference logRef = database.getReference("UserLog");
+                                                                    String id = logRef.push().getKey();
+                                                                    assert id != null;
+                                                                    UserLog userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                                                    logRef.child(id).setValue(userLog);
                                                                     createSharedPref(users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                                                     Intent i = new Intent(getActivity(), ClgAdminActivity.class);
                                                                     startActivity(i);
@@ -201,6 +226,11 @@ public class LoginFragment extends Fragment {
                                                         validateUser(userRole, users);
                                                         break;
                                                     case "Student":
+                                                        logRef = database.getReference("UserLog");
+                                                        id = logRef.push().getKey();
+                                                        assert id != null;
+                                                        userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                                        logRef.child(id).setValue(userLog);
                                                         createSharedPref(users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                                         i = new Intent(getActivity(), StudentActivity.class);
                                                         startActivity(i);
@@ -249,6 +279,12 @@ public class LoginFragment extends Fragment {
                         if (userChildDataSnapShot.child("user_id").getValue().toString().equals(users.getUser_id())) {
 
                             if (userChildDataSnapShot.child("valid_user").getValue().toString().equals("1")) {
+
+                                DatabaseReference logRef = database.getReference("UserLog");
+                                String id = logRef.push().getKey();
+                                assert id != null;
+                                UserLog userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                logRef.child(id).setValue(userLog);
 
                                 createSharedPref(users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                 Intent i = new Intent(getActivity(), CoordinatorActivity.class);
@@ -315,11 +351,25 @@ public class LoginFragment extends Fragment {
                                         .setMessage("You are Registered as a Volunteer as well as a Student Participant\nLog in as...")
                                         .setCancelable(false)
                                         .setPositiveButton("Volunteer", (DialogInterface dialog, int which) -> {
+
+                                            DatabaseReference logRef = database.getReference("UserLog");
+                                            String id = logRef.push().getKey();
+                                            assert id != null;
+                                            UserLog userLog = new UserLog(id,user.getUser_id(),date,time,"0");
+                                            logRef.child(id).setValue(userLog);
+
                                             createSharedPref(user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
                                             Intent i = new Intent(getActivity(), VolunteerActivity.class);
                                             startActivity(i);
                                         })
                                         .setNegativeButton("Student", (DialogInterface dialog, int which) -> {
+
+                                            DatabaseReference logRef = database.getReference("UserLog");
+                                            String id = logRef.push().getKey();
+                                            assert id != null;
+                                            UserLog userLog = new UserLog(id,user.getUser_id(),date,time,"0");
+                                            logRef.child(id).setValue(userLog);
+
                                             createSharedPref(user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
                                             Intent i = new Intent(getActivity(), StudentActivity.class);
                                             startActivity(i);
