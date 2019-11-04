@@ -94,10 +94,9 @@ public class LoginFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         String dateTime = dateFormat.format(c.getTime());
-        date = dateTime.substring(0,10);
-        time = dateTime.substring(10,19);
-        System.out.println(date +" "+time);
-
+        date = dateTime.substring(1,10);
+        time = dateTime.substring(11,19);
+        System.out.println(dateTime);
 
         if (dialog != null)
             dialog.dismiss();

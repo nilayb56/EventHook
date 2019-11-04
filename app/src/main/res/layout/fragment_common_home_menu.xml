@@ -42,7 +42,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="5dp"
-        android:text="Register"/>
+        android:text="View Events /\nRegister"/>
 
     <ImageView
         android:id="@+id/imgLinkedIn"

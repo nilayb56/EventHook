@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import nilay.android.eventhook.R;
+import nilay.android.eventhook.home.HomeTwoActivity;
 import nilay.android.eventhook.model.CollegeAdmin;
 import nilay.android.eventhook.viewmodels.RegistrationViewModel;
 
@@ -157,8 +158,13 @@ public class ClgAdminRegFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             if(fragment!=null) {
-                                FragmentManager fragmentManager = getChildFragmentManager();
-                                fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
+                                if(registrationViewModel.getEventid().equals("")){
+                                    Intent i = new Intent(getActivity(), HomeTwoActivity.class);
+                                    startActivity(i);
+                                } else {
+                                    FragmentManager fragmentManager = getChildFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
+                                }
                             }
                         });
                     })

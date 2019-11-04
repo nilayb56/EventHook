@@ -1,6 +1,7 @@
 package nilay.android.eventhook.home;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -108,6 +110,21 @@ public class HomeTwoActivity extends AppCompatActivity {
                                     eventList.add(new EventImageList(clgname, event));
                                 }
                             }
+                    }
+                    if(eventList.size()==0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HomeTwoActivity.this);
+                        builder.setTitle("Event Details\n")
+                                .setCancelable(false)
+                                .setMessage("Register as a College Admin?")
+                                .setPositiveButton("Yes", (DialogInterface dialog, int which) -> {
+                                    Intent i = new Intent(HomeTwoActivity.this, RegistrationActivity.class);
+                                    i.putExtra("role","1");
+                                    startActivity(i);
+                                })
+                                .setNegativeButton("No", (DialogInterface dialog, int which) -> {
+                                })
+                                .setIcon(android.R.drawable.ic_media_pause)
+                                .show();
                     }
                     adapter = new EventCardRecyclerViewAdapter(eventList, HomeTwoActivity.this);
                     recyclerView.setAdapter(adapter);

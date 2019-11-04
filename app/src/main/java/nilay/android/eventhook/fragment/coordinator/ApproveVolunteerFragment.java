@@ -174,8 +174,10 @@ public class ApproveVolunteerFragment extends Fragment {
                     listVolunteer.setAdapter(volunteerAdapter);
                 }
                 if (volunteer.size() != 0) {
-                    Animation animfadein = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-                    listVolunteer.startAnimation(animfadein);
+                    if(getContext()!=null) {
+                        Animation animfadein = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+                        listVolunteer.startAnimation(animfadein);
+                    }
                 }
             }
 
