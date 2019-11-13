@@ -623,9 +623,8 @@ public class CommonRegistrationFragment extends Fragment {
                     e.printStackTrace();
                 }
                 if (fragment != null) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    if (fragmentManager != null)
-                        fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
+                    FragmentManager fragmentManager = getChildFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
                 }
                 break;
 
@@ -652,6 +651,7 @@ public class CommonRegistrationFragment extends Fragment {
         Volunteer volunteer = new Volunteer(uid, eventid, "0", "0");
         dbRef.child(eventid).child(uid).setValue(volunteer);
         sendMail(getContext(), "Successful Registration in EventHook", "Congratulations " + username + "!!!\nYou are Registered as a Volunteer in Event " + eventname + ".\nPlease Login to enjoy the Perks of EVENTHOOK.", emailid, "");
+
     }
 
     private void insertCoordinator(String uid) {
