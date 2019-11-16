@@ -2,11 +2,13 @@ package nilay.android.eventhook.model;
 
 public class Volunteer {
     private String user_id="";
+    private String user_name="";
     private String event_id="";
     private String valid_user="0";
     private String duty_id="0";
     private double latitude = 0d;
     private double longitude = 0d;
+    private String mobile_number = "";
 
     public Volunteer() {
     }
@@ -24,6 +26,14 @@ public class Volunteer {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getEvent_id() {
@@ -64,6 +74,14 @@ public class Volunteer {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getMobile_number() {
+        return mobile_number;
+    }
+
+    public void setMobile_number(String mobile_number) {
+        this.mobile_number = mobile_number;
     }
 
     @Override

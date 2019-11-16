@@ -52,6 +52,7 @@ import nilay.android.eventhook.AddFocusChangedListener;
 import nilay.android.eventhook.AddListenerOnTextChange;
 import nilay.android.eventhook.GMailSender;
 import nilay.android.eventhook.R;
+import nilay.android.eventhook.fragment.coordinator.ConfirmOrUpdtResultFragment;
 import nilay.android.eventhook.fragment.volunteer.VolFeeConfirmationFragment;
 import nilay.android.eventhook.model.College;
 import nilay.android.eventhook.model.Coordinator;
@@ -609,11 +610,11 @@ public class CommonRegistrationFragment extends Fragment {
         if (id != null)
             dbRef.child(id).setValue(users);
         String roleName = registrationViewModel.getRolename();
+        registrationViewModel.setUserid(id);
+        registrationViewModel.setUsername(name);
         switch (roleName) {
 
             case "College Admin":
-                registrationViewModel.setUserid(id);
-                registrationViewModel.setUsername(name);
                 registrationViewModel.setEmail_id(emailid);
                 Fragment fragment = null;
                 Class fragmentClass = ClgAdminRegFragment.class;
@@ -651,7 +652,17 @@ public class CommonRegistrationFragment extends Fragment {
         Volunteer volunteer = new Volunteer(uid, eventid, "0", "0");
         dbRef.child(eventid).child(uid).setValue(volunteer);
         sendMail(getContext(), "Successful Registration in EventHook", "Congratulations " + username + "!!!\nYou are Registered as a Volunteer in Event " + eventname + ".\nPlease Login to enjoy the Perks of EVENTHOOK.", emailid, "");
-
+        Fragment fragment = null;
+        Class fragmentClass = ConfirmMobileFragment.class;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (fragment != null) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
+        }
     }
 
     private void insertCoordinator(String uid) {

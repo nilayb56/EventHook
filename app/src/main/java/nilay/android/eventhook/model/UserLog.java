@@ -5,17 +5,17 @@ public class UserLog {
     private String user_id = "";
     private String login_date = "";
     private String login_time = "";
+    private String logout_date = "";
     private String logout_time = "";
 
     public UserLog() {
     }
 
-    public UserLog(String log_id, String user_id, String login_date, String login_time, String logout_time) {
+    public UserLog(String log_id, String user_id, String login_date, String login_time) {
         this.log_id = log_id;
         this.user_id = user_id;
         this.login_date = login_date;
         this.login_time = login_time;
-        this.logout_time = logout_time;
     }
 
     public String getLog_id() {
@@ -48,6 +48,14 @@ public class UserLog {
 
     public void setLogin_time(String login_time) {
         this.login_time = login_time;
+    }
+
+    public String getLogout_date() {
+        return logout_date;
+    }
+
+    public void setLogout_date(String logout_date) {
+        this.logout_date = logout_date;
     }
 
     public String getLogout_time() {

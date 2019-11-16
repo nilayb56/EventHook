@@ -107,17 +107,17 @@ public class VolunteerActivity extends AppCompatActivity
     }
 
     private void getVolEventId() {
-        dbRef = database.getReference("Volunteer");
+        dbRef = database.getReference("Volunteer").child(volViewModel.getEventid()).child(volViewModel.getUserid());
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot eventDataSnapShot : dataSnapshot.getChildren()){
+                /*for(DataSnapshot eventDataSnapShot : dataSnapshot.getChildren()){
 
-                    for(DataSnapshot userDataSnapShot : eventDataSnapShot.getChildren()){
+                    for(DataSnapshot userDataSnapShot : eventDataSnapShot.getChildren()){*/
 
-                        Volunteer volunteer = userDataSnapShot.getValue(Volunteer.class);
+                        Volunteer volunteer = dataSnapshot.getValue(Volunteer.class);
                         if (volunteer != null && volunteer.getUser_id().equals(volViewModel.getUserid())) {
-                            volViewModel.setEventid(volunteer.getEvent_id());
+                            //volViewModel.setEventid(volunteer.getEvent_id());
                             if(volunteer.getDuty_id().equals("0")){
                                 Toast.makeText(VolunteerActivity.this, "No Duty has been Assigned to You!", Toast.LENGTH_SHORT).show();
                                 menu.findItem(R.id.nav_VolDutyResults).setVisible(false);
@@ -131,9 +131,9 @@ public class VolunteerActivity extends AppCompatActivity
                             }
                         }
 
-                    }
+                    /*}
 
-                }
+                }*/
             }
 
             @Override

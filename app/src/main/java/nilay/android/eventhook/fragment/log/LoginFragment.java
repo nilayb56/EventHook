@@ -35,6 +35,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -48,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+import nilay.android.eventhook.AddFocusChangedListener;
 import nilay.android.eventhook.AddListenerOnTextChange;
 import nilay.android.eventhook.LoginActivity;
 import nilay.android.eventhook.R;
@@ -94,8 +96,8 @@ public class LoginFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         String dateTime = dateFormat.format(c.getTime());
-        date = dateTime.substring(1,10);
-        time = dateTime.substring(11,19);
+        date = dateTime.substring(0, 10);
+        time = dateTime.substring(11, 19);
         System.out.println(dateTime);
 
         if (dialog != null)
@@ -138,8 +140,8 @@ public class LoginFragment extends Fragment {
                     .check();
         }
 
-        txtEmailAddress.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtEmailAddress, emailAddressLayout));
-        txtPassword.addTextChangedListener(new AddListenerOnTextChange(getContext(), txtPassword, passwordLayout));
+        txtEmailAddress.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtEmailAddress, emailAddressLayout));
+        txtPassword.setOnFocusChangeListener(new AddFocusChangedListener(getContext(), txtPassword, passwordLayout));
 
         btnLogin.setOnClickListener((View v) -> {
 
@@ -155,7 +157,8 @@ public class LoginFragment extends Fragment {
             } else {
 
                 dbRef = database.getReference("Users");
-                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                Query query = dbRef.orderByChild("email_id").equalTo(username);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         dialog = new Dialog(Objects.requireNonNull(getActivity()));
@@ -164,12 +167,91 @@ public class LoginFragment extends Fragment {
                         dialog.setCancelable(false);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                         dialog.show();
-                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot userDataSnapShot : dataSnapshot.getChildren()) {
+                                Users user = userDataSnapShot.getValue(Users.class);
+                                assert user != null;
+                                if (user.getPassword().equals(password)) {
+                                    logFlag = true;
+                                    DatabaseReference refRole = database.getReference("UserRole");
+                                    Query queryRole = refRole.orderByChild("role_id").equalTo(user.getRole_id());
+                                    queryRole.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot roleDataSnapshot) {
+                                            if(roleDataSnapshot.exists()){
+                                                for(DataSnapshot childRoleDataSnapShot : roleDataSnapshot.getChildren()){
+                                                    UserRole userRole = childRoleDataSnapShot.getValue(UserRole.class);
+                                                    assert userRole != null;
+                                                    String role = userRole.getRole_name();
+                                                    switch (role) {
+                                                        case "Admin":
+                                                            String logId = insertUserLog(user.getUser_id());
+                                                            createSharedPref(logId, user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
+                                                            Intent i = new Intent(getActivity(), AdminActivity.class);
+                                                            startActivity(i);
+                                                            Toast.makeText(getContext(), "Login Successful!", Toast.LENGTH_LONG).show();
+                                                            break;
+                                                        case "College Admin":
+                                                            DatabaseReference clgAdminRef = database.getReference("CollegeAdmin").child(user.getUser_id());
+                                                            clgAdminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                    CollegeAdmin collegeAdmin = dataSnapshot.getValue(CollegeAdmin.class);
+                                                                    if (collegeAdmin != null && collegeAdmin.getValid_user().equals("1")) {
+                                                                        String logId = insertUserLog(user.getUser_id());
+                                                                        createSharedPref(logId, user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
+                                                                        Intent i = new Intent(getActivity(), ClgAdminActivity.class);
+                                                                        startActivity(i);
+                                                                    } else {
+                                                                        Toast.makeText(getActivity(), "Please Wait for Request to be Authenticated", Toast.LENGTH_SHORT).show();
+                                                                        dialog.dismiss();
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+
+                                                            break;
+                                                        case "Coordinator":
+                                                            validateUser(userRole, user);
+                                                            break;
+                                                        case "Volunteer":
+                                                            validateUser(userRole, user);
+                                                            break;
+                                                        case "Student":
+                                                            String logid = insertUserLog(user.getUser_id());
+                                                            createSharedPref(logid, user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
+                                                            i = new Intent(getActivity(), StudentActivity.class);
+                                                            startActivity(i);
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                } else {
+                                    dialog.dismiss();
+                                    Toast.makeText(getActivity(), "Invalid Password!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        } else {
+                            dialog.dismiss();
+                            Toast.makeText(getActivity(), "Invalid Username!", Toast.LENGTH_LONG).show();
+                        }
+                        /*for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                             if (childDataSnapshot.child("email_id").exists() && childDataSnapshot.child("email_id").getValue().toString().equals(username) && childDataSnapshot.child("password").getValue().toString().equals(password)) {
                                 logFlag = true;
                                 Users users = childDataSnapshot.getValue(Users.class);
-                                DatabaseReference refLogin = database.getReference("UserRole");
-                                refLogin.addListenerForSingleValueEvent(new ValueEventListener() {
+                                DatabaseReference refRole = database.getReference("UserRole");
+                                refRole.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
@@ -179,13 +261,14 @@ public class LoginFragment extends Fragment {
                                                 String role = userRole.getRole_name();
                                                 DatabaseReference logRef = database.getReference("UserLog");
                                                 String id = "";
-                                                UserLog userLog = new UserLog();
+                                                UserLog userLog;
                                                 switch (role) {
                                                     case "Admin":
                                                         id = logRef.push().getKey();
                                                         assert id != null;
-                                                        userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                                        userLog = new UserLog(id, users.getUser_id(), date, time);
                                                         logRef.child(id).setValue(userLog);
+                                                        createSharedPref(id, users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                                         Intent i = new Intent(getActivity(), AdminActivity.class);
                                                         startActivity(i);
                                                         Toast.makeText(getContext(), "Login Successful!", Toast.LENGTH_LONG).show();
@@ -197,12 +280,13 @@ public class LoginFragment extends Fragment {
                                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                                 CollegeAdmin collegeAdmin = dataSnapshot.getValue(CollegeAdmin.class);
                                                                 if (collegeAdmin != null && collegeAdmin.getValid_user().equals("1")) {
+                                                                    insertUserLog(users.getUser_id());
                                                                     DatabaseReference logRef = database.getReference("UserLog");
                                                                     String id = logRef.push().getKey();
                                                                     assert id != null;
-                                                                    UserLog userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                                                    UserLog userLog = new UserLog(id, users.getUser_id(), date, time);
                                                                     logRef.child(id).setValue(userLog);
-                                                                    createSharedPref(users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
+                                                                    createSharedPref(id, users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                                                     Intent i = new Intent(getActivity(), ClgAdminActivity.class);
                                                                     startActivity(i);
                                                                 } else {
@@ -228,9 +312,9 @@ public class LoginFragment extends Fragment {
                                                         logRef = database.getReference("UserLog");
                                                         id = logRef.push().getKey();
                                                         assert id != null;
-                                                        userLog = new UserLog(id,users.getUser_id(),date,time,"0");
+                                                        userLog = new UserLog(id, users.getUser_id(), date, time);
                                                         logRef.child(id).setValue(userLog);
-                                                        createSharedPref(users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
+                                                        createSharedPref(id, users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                                         i = new Intent(getActivity(), StudentActivity.class);
                                                         startActivity(i);
                                                         break;
@@ -245,11 +329,11 @@ public class LoginFragment extends Fragment {
                                     }
                                 });
                             }
-                        }
-                        if (!logFlag) {
+                        }*/
+                        /*if (!logFlag) {
                             dialog.dismiss();
                             Toast.makeText(getActivity(), "Invalid Username or Password!", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
                     }
 
                     @Override
@@ -263,6 +347,15 @@ public class LoginFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private String insertUserLog(String user_id) {
+        DatabaseReference logRef = database.getReference("UserLog");
+        String id = logRef.push().getKey();
+        assert id != null;
+        UserLog userLog = new UserLog(id, user_id, date, time);
+        logRef.child(id).setValue(userLog);
+        return  id;
     }
 
     private void validateUser(UserRole userRole, Users users) {
@@ -279,13 +372,9 @@ public class LoginFragment extends Fragment {
 
                             if (userChildDataSnapShot.child("valid_user").getValue().toString().equals("1")) {
 
-                                DatabaseReference logRef = database.getReference("UserLog");
-                                String id = logRef.push().getKey();
-                                assert id != null;
-                                UserLog userLog = new UserLog(id,users.getUser_id(),date,time,"0");
-                                logRef.child(id).setValue(userLog);
+                                String logId = insertUserLog(users.getUser_id());
 
-                                createSharedPref(users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
+                                createSharedPref(logId, users.getUser_id(), users.getUser_name(), users.getCollege_id(), users.getRole_id());
                                 Intent i = new Intent(getActivity(), CoordinatorActivity.class);
                                 startActivity(i);
 
@@ -312,7 +401,7 @@ public class LoginFragment extends Fragment {
                                         locationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
                                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new AddLocationListener(volunteer));
                                     }
-                                    checkifParticipant(users);
+                                    checkifParticipant(users, volunteer);
 
                                 } else {
                                     Toast.makeText(getContext(), "Please Wait for Request to be Authenticated", Toast.LENGTH_SHORT).show();
@@ -332,7 +421,7 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private void checkifParticipant(Users user) {
+    private void checkifParticipant(Users user, Volunteer volunteer) {
         if (getActivity() != null) {
             dbRef = database.getReference("UserParticipation");
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -351,25 +440,15 @@ public class LoginFragment extends Fragment {
                                         .setCancelable(false)
                                         .setPositiveButton("Volunteer", (DialogInterface dialog, int which) -> {
 
-                                            DatabaseReference logRef = database.getReference("UserLog");
-                                            String id = logRef.push().getKey();
-                                            assert id != null;
-                                            UserLog userLog = new UserLog(id,user.getUser_id(),date,time,"0");
-                                            logRef.child(id).setValue(userLog);
-
-                                            createSharedPref(user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
+                                            String logId = insertUserLog(user.getUser_id());
+                                            createSharedPref(logId, user.getUser_id(), user.getUser_name(), user.getCollege_id(), volunteer.getEvent_id());
                                             Intent i = new Intent(getActivity(), VolunteerActivity.class);
                                             startActivity(i);
                                         })
                                         .setNegativeButton("Student", (DialogInterface dialog, int which) -> {
 
-                                            DatabaseReference logRef = database.getReference("UserLog");
-                                            String id = logRef.push().getKey();
-                                            assert id != null;
-                                            UserLog userLog = new UserLog(id,user.getUser_id(),date,time,"0");
-                                            logRef.child(id).setValue(userLog);
-
-                                            createSharedPref(user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
+                                            String logId = insertUserLog(user.getUser_id());
+                                            createSharedPref(logId, user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
                                             Intent i = new Intent(getActivity(), StudentActivity.class);
                                             startActivity(i);
                                         })
@@ -381,7 +460,8 @@ public class LoginFragment extends Fragment {
 
                     }
                     if (notParticipant) {
-                        createSharedPref(user.getUser_id(), user.getUser_name(), user.getCollege_id(), user.getRole_id());
+                        String logId = insertUserLog(user.getUser_id());
+                        createSharedPref(logId, user.getUser_id(), user.getUser_name(), user.getCollege_id(), volunteer.getEvent_id());
                         Intent i = new Intent(getActivity(), VolunteerActivity.class);
                         startActivity(i);
                     }
@@ -395,9 +475,10 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    private void createSharedPref(String user_id, String user_name, String college_id, String role_id) {
+    private void createSharedPref(String logId, String user_id, String user_name, String college_id, String role_id) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("logId", logId);
         editor.putString("userid", user_id);
         editor.putString("username", user_name);
         editor.putString("collegeid", college_id);
@@ -427,10 +508,10 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onLocationChanged(Location location) {
-            if(pos==0) {
+            if (pos == 0) {
                 dbRef.child(volunteer.getEvent_id()).child(volunteer.getUser_id()).child("latitude").setValue(location.getLatitude());
                 dbRef.child(volunteer.getEvent_id()).child(volunteer.getUser_id()).child("longitude").setValue(location.getLongitude());
-                pos=1;
+                pos = 1;
             }
         }
 

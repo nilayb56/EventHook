@@ -31,6 +31,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,6 +56,7 @@ public class LocationFragment extends Fragment implements LocationListener {
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private int pos = 0;
+    private Marker currLocationMarker;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference("Volunteer");
@@ -131,8 +133,11 @@ public class LocationFragment extends Fragment implements LocationListener {
                                 Volunteer volunteer = volDataSnapShot.getValue(Volunteer.class);
                                 assert volunteer != null;
                                 if (volunteer.getLatitude() != 0d  && volunteer.getLongitude() != 0d) {
+                                    if(currLocationMarker != null){
+                                        currLocationMarker.remove();
+                                    }
                                     LatLng location = new LatLng(volunteer.getLatitude(), volunteer.getLongitude());
-                                    googleMap.addMarker(new MarkerOptions().position(location).title(volunteer.getUser_id()));
+                                    currLocationMarker = googleMap.addMarker(new MarkerOptions().position(location).title(volunteer.getUser_name()+"\nCall On: "+volunteer.getMobile_number()));
                                 }
                             }
                         }
