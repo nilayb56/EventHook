@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -47,6 +48,7 @@ public class ResultDashboardFragment extends Fragment {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = database.getReference();
+    private FragmentActivity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +69,7 @@ public class ResultDashboardFragment extends Fragment {
         third = view.findViewById(R.id.third);
 
         if (getActivity() != null) {
+            activity = getActivity();
             homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
             collegeViewModel = new ViewModelProvider(getActivity()).get(CollegeViewModel.class);
             homeViewModel.setMenu(true);
@@ -165,7 +168,7 @@ public class ResultDashboardFragment extends Fragment {
                 for(DataSnapshot eventDataSnapShot : dataSnapshot.getChildren()){
                     events.add(eventDataSnapShot.getValue(Event.class));
                 }
-                spinnerEvents.setAdapter(new ArrayAdapter<Event>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_dropdown_item, events));
+                spinnerEvents.setAdapter(new ArrayAdapter<Event>(activity, android.R.layout.simple_spinner_dropdown_item, events));
             }
 
             @Override

@@ -10,7 +10,7 @@
             android:title="Volunteer Requests" />
     </group>
 
-    <item android:title="View">
+    <!--<item android:title="View">
         <menu>
             <item
                 android:id="@+id/nav_CrdViewVol"
@@ -24,7 +24,7 @@
 
 
         </menu>
-    </item>
+    </item>-->
 
     <item android:title="Duties">
         <menu>

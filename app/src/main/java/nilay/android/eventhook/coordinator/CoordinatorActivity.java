@@ -191,11 +191,7 @@ public class CoordinatorActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_CrdReqVol) {
             fragmentClass = ApproveVolunteerFragment.class;
-        } else if (id == R.id.nav_CrdViewVol) {
-
-        } else if (id == R.id.nav_CrdViewStudent) {
-
-        }else if (id == R.id.nav_CrdAddDuty) {
+        } else if (id == R.id.nav_CrdAddDuty) {
             fragmentClass = CodAddDutyFragment.class;
         } else if (id == R.id.nav_CrdAssignDuty) {
             fragmentClass = CodAssignDutyFragment.class;

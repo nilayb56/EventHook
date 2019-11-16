@@ -237,8 +237,6 @@ public class VolunteerActivity extends AppCompatActivity
             fragmentClass = VolEventResultFragment.class;
         } else if (id == R.id.nav_volQuickReg) {
             fragmentClass = QuickRegistrationFragment.class;
-        } else if (id == R.id.nav_VolUpdtRes) {
-
         } else if (id == R.id.nav_volFinance){
             fragmentClass = VolFeeConfirmationFragment.class;
         }

@@ -8,15 +8,15 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_volFinance"
-            android:icon="@drawable/rupee"
+            android:icon="@drawable/ic_rupee_indian"
             android:title="Finance" />
         <item
             android:id="@+id/nav_volAttendance"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_empty_star"
             android:title="Attendance" />
         <item
             android:id="@+id/nav_volQuickReg"
-            android:icon="@drawable/ic_registration_form"
+            android:icon="@drawable/ic_group_persons"
             android:title="Quick Registration" />
     </group>
 
@@ -26,12 +26,12 @@
         <menu>
             <item
                 android:id="@+id/nav_VolSubmitRes"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Submit Result" />
-            <item
+                android:icon="@drawable/ic_check"
+                android:title="Submit/Update Result" />
+            <!--<item
                 android:id="@+id/nav_VolUpdtRes"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Update Result" />
+                android:icon="@drawable/ic_"
+                android:title="Update Result" />-->
         </menu>
     </item>
 

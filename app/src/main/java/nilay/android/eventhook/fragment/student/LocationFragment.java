@@ -133,11 +133,8 @@ public class LocationFragment extends Fragment implements LocationListener {
                                 Volunteer volunteer = volDataSnapShot.getValue(Volunteer.class);
                                 assert volunteer != null;
                                 if (volunteer.getLatitude() != 0d  && volunteer.getLongitude() != 0d) {
-                                    if(currLocationMarker != null){
-                                        currLocationMarker.remove();
-                                    }
                                     LatLng location = new LatLng(volunteer.getLatitude(), volunteer.getLongitude());
-                                    currLocationMarker = googleMap.addMarker(new MarkerOptions().position(location).title(volunteer.getUser_name()+"\nCall On: "+volunteer.getMobile_number()));
+                                    currLocationMarker = googleMap.addMarker(new MarkerOptions().position(location).title(volunteer.getUser_name()+" Call On: "+volunteer.getMobile_number()));
                                 }
                             }
                         }
