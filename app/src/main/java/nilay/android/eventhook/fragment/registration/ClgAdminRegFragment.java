@@ -158,7 +158,7 @@ public class ClgAdminRegFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             if(fragment!=null) {
-                                if(registrationViewModel.getEventid().equals("")){
+                                if(registrationViewModel.getEventid() == null || registrationViewModel.getEventid().equals("")){
                                     Intent i = new Intent(getActivity(), HomeTwoActivity.class);
                                     startActivity(i);
                                 } else {

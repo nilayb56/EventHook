@@ -624,7 +624,7 @@ public class CommonRegistrationFragment extends Fragment {
                     e.printStackTrace();
                 }
                 if (fragment != null) {
-                    FragmentManager fragmentManager = getChildFragmentManager();
+                    FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
                 }
                 break;
@@ -660,7 +660,7 @@ public class CommonRegistrationFragment extends Fragment {
             e.printStackTrace();
         }
         if (fragment != null) {
-            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flGetReg, fragment).commit();
         }
     }

@@ -284,13 +284,13 @@ public class AddEventFragment extends Fragment {
         });
 
         txtAddEvent.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtAddEvent, txtEventNameLayout, "^[\\p{L} .'-]+$", "ENTER ONLY ALPHABETS"));
-        txtGroupMembers.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtGroupMembers, txtGrpMaxLayout, "^[0-9]*$", "ENTER ONLY NUMBERS AND NO DECIMAL"));
-        txtMinGroupMembers.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtMinGroupMembers, txtGrpMinLayout, "^[0-9]*$", "ENTER ONLY NUMBERS AND NO DECIMAL"));
+        txtGroupMembers.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtGroupMembers, txtGrpMaxLayout, "[0-9]*", "ENTER ONLY NUMBERS AND NO DECIMAL"));
+        txtMinGroupMembers.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtMinGroupMembers, txtGrpMinLayout, "[0-9]*", "ENTER ONLY NUMBERS AND NO DECIMAL"));
         txtRegStart.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtRegStart, txtRegStartLayout));
         txtRegEnd.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtRegEnd, txtRegEndLayout));
         txtEventDate.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtEventDate, txtEventDateLayout));
         txtCancelDate.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtCancelDate, txtCancelDateLayout));
-        txtEventFees.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtEventFees, txtEventFeesLayout, "^[0-9]*$", "ENTER ONLY NUMBERS AND NO DECIMAL"));
+        txtEventFees.addTextChangedListener(new AddListenerOnTextChange(getContext(),txtEventFees, txtEventFeesLayout, "[0-9]*", "ENTER ONLY NUMBERS AND NO DECIMAL"));
 
         btnAddEvent.setOnClickListener((View v) -> {
             eventname = txtAddEvent.getText().toString();
@@ -327,7 +327,7 @@ public class AddEventFragment extends Fragment {
             } else if (event_fees.equals("")) {
                 txtEventFees.requestFocus();
                 txtEventFeesLayout.setError("FIELD CANNOT BE EMPTY");
-            } else if (!event_fees.matches("^[0-9]*$")) {
+            } else if (!event_fees.matches("[0-9]*")) {
                 txtEventFees.requestFocus();
                 txtEventFeesLayout.setError("ENTER ONLY NUMBERS AND NO DECIMAL");
             } else {
@@ -335,13 +335,13 @@ public class AddEventFragment extends Fragment {
                     if(maxMem.equals("")) {
                         txtGroupMembers.requestFocus();
                         txtGrpMaxLayout.setError("FIELD CANNOT BE EMPTY");
-                    } else if(maxMem.matches("^[0-9]*$")) {
+                    } else if(!maxMem.matches("[0-9]*")) {
                         txtGroupMembers.requestFocus();
                         txtGrpMaxLayout.setError("ENTER ONLY NUMBERS AND NO DECIMAL");
                     } else if(minMem.equals("")) {
                         txtMinGroupMembers.requestFocus();
                         txtGrpMinLayout.setError("FIELD CANNOT BE EMPTY");
-                    } else if(minMem.matches("^[0-9]*$")) {
+                    } else if(!minMem.matches("[0-9]*")) {
                         txtMinGroupMembers.requestFocus();
                         txtGrpMinLayout.setError("ENTER ONLY NUMBERS AND NO DECIMAL");
                     } else {
