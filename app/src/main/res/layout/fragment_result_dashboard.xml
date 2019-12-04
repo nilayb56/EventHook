@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.home.ResultDashboardFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/twoimage"
+        android:drawableTop="@drawable/oneimage"
+        android:drawableEnd="@drawable/threeimage"
+        android:fontFamily="@font/merienda_regular"
+        android:text="Final Results"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:textSize="30sp" />
+
+    <FrameLayout
+        android:id="@+id/flGetClg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblResult"
+        android:layout_marginTop="20dp" />
+
+    <Spinner
+        android:id="@+id/spinnerEvents"
+        style="@style/mySpinnerItemStyleWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flGetClg"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerEvents"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/merienda_regular"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/lightGray"
+        android:visibility="gone"/>
+
+    <TableLayout
+        android:id="@+id/tableRank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/result"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <TableRow
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border">
+
+            <TextView
+                android:id="@+id/rank"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/droidserif_bold"
+                android:text="Rank"
+                android:textSize="16sp"
+                android:textColor="@color/lightGray"/>
+
+            <TextView
+                android:id="@+id/eventclg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/droidserif_bold"
+                android:text="Winner"
+                android:textSize="16sp"
+                android:textColor="@color/lightGray"/>
+        </TableRow>
+
+        <TableRow android:background="@drawable/border">
+
+            <TextView
+                android:id="@+id/rankFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="First"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="winner"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+        </TableRow>
+
+        <TableRow android:background="@drawable/border">
+
+            <TextView
+                android:id="@+id/rankSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Second"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="winner"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+        </TableRow>
+
+        <TableRow android:background="@drawable/border">
+
+            <TextView
+                android:id="@+id/Third"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Third"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/third"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="winner"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+        </TableRow>
+
+    </TableLayout>
+
+</RelativeLayout>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    tools:context=".fragment.coordinator.ConfirmOrUpdtResultFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/imgConfirm"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/approve"
+            android:layout_marginStart="70dp"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/lblConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgConfirm"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="42dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/merienda_regular"
+            android:text="Confirm Results"/>
+
+        <ImageView
+            android:id="@+id/imgUpdate"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:src="@drawable/updateicon"
+            android:layout_marginEnd="40dp"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/lblUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgUpdate"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="33dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/merienda_regular"
+            android:text="Update Results"/>
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imgAddRole"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:src="@drawable/result" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Please Click on Confirm Results Icon to let others View the final Results\n\nIf there is any change to be made to submitted Results, please press Update Icon"
+                android:textColor="#03B08B"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/linearConfirm"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/lblEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/merienda_regular"
+            android:text="Event Name"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:text="Confirm Results"
+                android:layout_centerHorizontal="true"
+                android:textColor="#fff"
+                android:background="@drawable/round"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

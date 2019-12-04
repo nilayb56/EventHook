@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fee Payment Info"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:fontFamily="@font/merienda_regular"/>
+    </TableRow>
+
+    <TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#000"
+            android:layout_weight="2"
+            android:layout_margin="5dp"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/lblRegNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group Members"
+            android:layout_weight="3"
+            android:textSize="16sp"
+            android:fontFamily="@font/merienda_regular"/>
+
+        <TextView
+            android:id="@+id/lblRegFees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Fees"
+            android:textSize="16sp"
+            android:fontFamily="@font/merienda_regular"/>
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/lblRegPartNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginTop="10dp"
+            android:text="Members"
+            android:textSize="16sp"
+            android:fontFamily="@font/merienda_regular"/>
+
+        <TextView
+            android:id="@+id/lblRegPartFees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Total Fees"
+            android:textSize="16sp"
+            android:fontFamily="@font/merienda_regular"/>
+
+    </TableRow>
+
+    <TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#000"
+            android:layout_weight="3"
+            android:layout_margin="5dp"/>
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="\nThis total Event Fees of you/your Group is to be paid to UPI ID: 9876543210@upi.\n\nYou will receive a final Confirmation after you pay fees of all your unregistered_count if it is a Group Event."
+            android:textSize="16sp"
+            android:fontFamily="@font/merienda_regular"/>
+
+    </TableRow>
+
+</TableLayout>

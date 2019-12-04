@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.registration.ConfirmMobileFragment">
+
+    <TextView
+        android:id="@+id/lblConfirmMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Mobile Number"
+        android:textAlignment="center"
+        android:fontFamily="@font/merienda_regular"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:drawableTop="@drawable/telephone"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtMobileLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_margin="5dp"
+        app:errorIconDrawable="@drawable/ic_warning"
+        app:startIconDrawable="@drawable/ic_telephone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mobile Number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGetOTP"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="Add Mobile Number"
+        android:textSize="16sp" />
+
+</LinearLayout>

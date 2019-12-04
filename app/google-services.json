@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "111930312206",
+    "firebase_url": "https://eventhook-c8ce5.firebaseio.com",
+    "project_id": "eventhook-c8ce5",
+    "storage_bucket": "eventhook-c8ce5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111930312206:android:fe8dae53715892aa",
+        "android_client_info": {
+          "package_name": "nilay.android.eventhook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111930312206-btfkl0jtpt7rr3jrkoro51h49sm34l39.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nilay.android.eventhook",
+            "certificate_hash": "eb33b9f34514f111187b7ff1795af9f7e761d3d1"
+          }
+        },
+        {
+          "client_id": "111930312206-llgil5tnr7sdt8uo9ud8m734c4c0e3hj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxKrbogIiQVTnmXWSu0UM-O7rQ39Hh9Xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111930312206-llgil5tnr7sdt8uo9ud8m734c4c0e3hj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

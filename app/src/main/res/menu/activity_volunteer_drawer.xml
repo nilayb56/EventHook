@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/nav_VolDutyAttend"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_volFinance"
+            android:icon="@drawable/ic_rupee_indian"
+            android:title="Finance" />
+        <item
+            android:id="@+id/nav_volAttendance"
+            android:icon="@drawable/ic_empty_star"
+            android:title="Attendance" />
+        <item
+            android:id="@+id/nav_volQuickReg"
+            android:icon="@drawable/ic_group_persons"
+            android:title="Quick Registration" />
+    </group>
+
+    <item
+        android:id="@+id/nav_VolDutyResults"
+        android:title="Results">
+        <menu>
+            <item
+                android:id="@+id/nav_VolSubmitRes"
+                android:icon="@drawable/ic_check"
+                android:title="Submit/Update Result" />
+            <!--<item
+                android:id="@+id/nav_VolUpdtRes"
+                android:icon="@drawable/ic_"
+                android:title="Update Result" />-->
+        </menu>
+    </item>
+
+</menu>

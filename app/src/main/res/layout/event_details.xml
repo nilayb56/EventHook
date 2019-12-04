@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/clg"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="College"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/eventclg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="#000" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Event Date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/eventdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="#000" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/droidserif_bold"
+                android:text="Group Event Info"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Maximum Members"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/maxmem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Minimum Members"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/minmem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="#000" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/lblThemes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/droidserif_bold"
+                android:text="Event Themes"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/themes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Themes"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/themeList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="#000" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/droidserif_bold"
+                android:text="Event Registration Info"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Registrations Start Date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/regstart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Registrations Last Date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/regend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Last Cancellation Date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/regcancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="#000"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/fees"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/merienda_regular"
+                android:text="Event Fees"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/regfees"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/merienda_regular"
+                android:text="dvvf"
+                android:textSize="16sp" />
+        </TableRow>
+
+    </TableLayout>
+
+</ScrollView>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="10dp"
+    tools:context=".fragment.admin.AddCollegeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardAddClg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/imgAddClg"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/college" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/merienda_regular"
+                    android:text="Add College"
+                    android:textColor="#03B08B"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/lblAddClg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardAddClg"
+            android:layout_marginTop="10dp"
+            android:text="Enter College Name"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/txtAdminAddClg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblAddClg"
+            android:layout_marginTop="10dp"
+            android:hint="College Name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lblAddClgDept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtAdminAddClg"
+            android:text="Enter College Department"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/txtAdminAddClgDept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblAddClgDept"
+            android:layout_marginTop="10dp"
+            android:hint="College Department"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnAddClg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtAdminAddClgDept"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round"
+            android:text="Add"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
+
+</ScrollView>
